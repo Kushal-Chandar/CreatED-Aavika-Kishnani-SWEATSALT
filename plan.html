@@ -166,7 +166,7 @@ footer .changelog-item b{
     <a href="index.html" style="font-family:'Plex Mono',ui-monospace,monospace;font-size:.78rem;color:var(--ink-dim);text-decoration:none;display:inline-block;margin-bottom:1rem;">← SweatSalt</a>
     <p class="eyebrow">SweatSalt · MVP design spec</p>
     <h1>Heat-stress risk wearable — design spec</h1>
-    <p class="dek">Wearable heat-stress risk wristband. Student-built MVP; mentor supports electronics and soldering/perfboard work. No custom PCB — off-shelf breakout modules only.</p>
+    <p class="dek">Wearable heat-stress risk wristband. Student-built MVP, end to end: breadboard prototype first, then a 3D-printed PCB (copper-tape traces) and a custom open-style enclosure — soldering outsourced for safety.</p>
     <p class="byline">
       <span>Mentor: <b>Kushal Chandar</b></span>
       <span>Student: <b>Aavika Kishnani</b></span>
@@ -209,8 +209,12 @@ footer .changelog-item b{
   <section id="hardware">
     <p class="sec-label">02 — Hardware</p>
     <h2>Hardware architecture</h2>
+    <div class="callout teal">
+      <span class="callout-label">Scope update, 2026-07-24</span>
+      <p>Custom PCB is now in scope, as a <strong>3D-printed board with copper-tape traces</strong> (Phase 4) — Aavika designs the schematic and footprints herself; soldering is outsourced for safety. Fabricated/production PCB remains out of scope. Enclosure direction: <strong>open-style wearable</strong>, not a compact watch form factor. See the 12-week phased roadmap in Session 2's slides.</p>
+    </div>
 
-    <h3>Sensor stack — all off-shelf breakout modules, no PCB</h3>
+    <h3>Sensor stack — breadboard prototype first, then the printed board</h3>
     <div class="scroller">
       <table>
         <thead><tr><th>Sensor</th><th>Purpose</th><th>Module</th><th>Interface</th></tr></thead>
@@ -310,16 +314,16 @@ footer .changelog-item b{
 
   <section id="app">
     <p class="sec-label">04 — App</p>
-    <h2>App integration — open question</h2>
-    <div class="callout">
-      <span class="callout-label">Blocks BLE payload design</span>
-      <p>What phone does the student test on?</p>
+    <h2>Companion app — decided, in scope.</h2>
+    <div class="callout teal">
+      <span class="callout-label">Resolved, 2026-07-19</span>
+      <p>PWA with a Web Bluetooth extension — one codebase for Android and iPhone.</p>
     </div>
     <ul>
-      <li><strong>Device works standalone without any app</strong> — the on-device vibration motor is the MVP's real-time alert path regardless of this decision. App is additive Phase 2, not a blocker.</li>
-      <li><strong>If Android:</strong> MIT App Inventor + its BLE extension works, or a PWA using the Web Bluetooth API (Chrome/Edge only) — both low lift.</li>
-      <li><strong>If iPhone:</strong> MIT App Inventor's BLE extension is Android-only (unshipped for iOS since ~2020). Web Bluetooth is unsupported in iOS Safari entirely — PWA route is a dead end. Would need Flutter/React Native with a native BLE plugin, or native Swift.</li>
-      <li><strong>Action:</strong> confirm the student's phone platform before choosing an app framework. Until then, firmware exposes sensor data over a generic BLE characteristic layout so either path can consume it later without a firmware rewrite.</li>
+      <li><strong>Device works standalone without any app</strong> — the on-device vibration motor is the MVP's real-time alert path regardless of app status. The app is an additive readout, not a blocker.</li>
+      <li><strong>Android:</strong> Web Bluetooth is supported natively in Chrome/Edge — the PWA works day one, no wrapper needed.</li>
+      <li><strong>iPhone:</strong> Safari does not expose Web Bluetooth. A thin native wrapper is required — documented as a known limitation, and likely to land as a guided demo / stretch goal rather than a fully taught skill (Phase 3 is the tightest phase in the schedule).</li>
+      <li><strong>Firmware:</strong> exposes sensor data over a generic BLE characteristic layout so either platform's app can read it the same way.</li>
     </ul>
   </section>
 
