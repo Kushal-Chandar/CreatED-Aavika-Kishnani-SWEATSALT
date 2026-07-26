@@ -193,13 +193,12 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>Phase 1, week 2. Four things, in order.</h2>
+    <h2>Phase 1, week 2. Three things, in order.</h2>
     <p class="lede">Session 2 set the plan: 12 weeks, four phases, no ambiguity on scope. Today is the first real electronics session — everything here is a tool you'll use on your own device, not theory for its own sake.</p>
     <ol class="tracks">
       <li><div><h3>Power</h3><p>What voltage and current actually are — the rail every chip on your board depends on.</p></div></li>
       <li><div><h3>Ohm's law, as a tool</h3><p>Size a real resistor for a real LED — not a formula to memorize.</p></div></li>
       <li><div><h3>Series &amp; parallel</h3><p>Your four sensors share one 3.3V rail. What does that mean for your battery budget?</p></div></li>
-      <li><div><h3>Voltage dividers → GSR</h3><p>Two resistors and a formula that turns out to already be your first sensor.</p></div></li>
     </ol>
     <p class="prompt-box teal"><span class="label">Closing</span>We lock the MCU choice — your homework — at the end of this session.</p>
   </div>
@@ -254,7 +253,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
       </div>
       <div class="spec-cell">
         <h4>Series: current is shared, voltage divides</h4>
-        <p>Put two resistors end to end and the same current flows through both — but the 3.3V splits between them. This is the setup for the next slide.</p>
+        <p>Put two resistors end to end and the same current flows through both — but the 3.3V splits between them. That splitting trick becomes your GSR sensor — next session.</p>
       </div>
     </div>
     <a class="falstad-link" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">Open Falstad — build: 4-load parallel rail</a>
@@ -262,54 +261,10 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 6: voltage divider -->
+<!-- 6: MCU decision -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>The circuit inside your sensor</p>
-    <h2>Two resistors and a formula: the voltage divider.</h2>
-    <p class="lede">Two resistors in series across 3.3V. Measure the voltage at the midpoint — it depends on the ratio of the two resistors, not their absolute size.</p>
-    <div class="spec-cell">
-      <h4>The formula</h4>
-      <p><code>Vout = Vin × R2 / (R1 + R2)</code> — R1 is the top resistor (closest to 3.3V), R2 is the bottom (closest to ground). Vout is measured at the junction between them.</p>
-    </div>
-    <a class="falstad-link" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">Open Falstad — build: fixed two-resistor divider</a>
-    <p class="prompt-box"><span class="label">Predict first</span>R1 = R2 = 10kΩ. What's Vout? Check it's exactly half of 3.3V. Now try R1 = 1kΩ, R2 = 9kΩ — which way does Vout move?</p>
-  </div>
-</section>
-
-<!-- 7: divider becomes GSR -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>This divider is your GSR sensor</p>
-    <h2>Swap R2 for your skin. That's the whole sensor.</h2>
-    <p class="lede">Your skin has resistance. Sweat glands fill with sweat, skin resistance drops. Replace the bottom resistor in the divider with your skin, and Vout moves — that's the entire GSR sensing principle, no black box.</p>
-    <div class="spec-cell">
-      <h4>Sweat ↑ → resistance ↓ → Vout ↑</h4>
-      <p>More sweat = lower skin resistance = R2 shrinks = Vout rises (Vout moves toward the R1 side... check the direction yourself in the sim below with the slider).</p>
-    </div>
-    <a class="falstad-link" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">Open Falstad — build: divider with a "skin" slider resistor</a>
-    <p class="prompt-box"><span class="label">Predict first</span>Drag the skin-resistance slider from high to low. Predict which direction Vout moves before you drag — then confirm.</p>
-    <p class="prompt-box teal"><span class="label">Homework</span>Rebuild this divider in Falstad. Pick R1 so that across a realistic skin-resistance range, Vout spans a useful window — not pinned near 0V or 3.3V the whole time.</p>
-  </div>
-</section>
-
-<!-- 8: ADC bridge -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">7</span>Reading Vout</p>
-    <h2>Something has to turn that voltage into a number.</h2>
-    <p class="lede">Vout is an analog voltage — anywhere between 0 and 3.3V. Your firmware needs a number. That conversion is done by an ADC: analog-to-digital converter.</p>
-    <div class="spec-cell">
-      <h4>Where the ADC lives</h4>
-      <p>It's built into the microcontroller. <code>analogRead()</code> on an ADC-capable pin samples the voltage and returns a number your code can compare, log, and threshold. Which brings us to the chip itself.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 9: MCU decision -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">8</span>Homework payoff</p>
+    <p class="kicker"><span class="num">5</span>Homework payoff</p>
     <h2>ESP32-C3 or S3? Your call, your reasoning.</h2>
     <p class="lede">Every job this device does ends up on one chip: sample sensors → clean/fuse the signal → drive OLED + vibration → hold a BLE connection. Single-core C3 or dual-core S3?</p>
     <div class="decision-box">
@@ -319,25 +274,14 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 10: homework -->
+<!-- 7: session 4 preview + reading -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">9</span>Before session 4</p>
-    <h2>One divider, rebuilt with intent.</h2>
-    <ul class="checklist">
-      <li><strong>Rebuild the GSR divider in Falstad.</strong> Choose R1 so Vout spans a useful window across a realistic skin-resistance range — this is a soft first pass at thinking about ADC range, before we name it that in session 4.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- 11: session 4 preview + reading -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">10</span>Looking ahead</p>
-    <h2>Session 4 — digital signals, GPIO, I²C, datasheets.</h2>
-    <p class="lede">Read these before session 4, not during it — so session time goes to questions, not first exposure.</p>
+    <p class="kicker"><span class="num">6</span>Looking ahead</p>
+    <h2>Session 4 — voltage dividers, GSR, ADC, digital signals, I²C, datasheets.</h2>
+    <p class="lede">We pick up series/parallel right where we left off: two resistors in series become a voltage divider, and swapping one resistor for your own skin turns that divider into your GSR sensor. Read these before session 4, not during it — so session time goes to questions, not first exposure.</p>
     <ul class="reading-list">
-      <li><a href="https://learn.sparkfun.com/tutorials/logic-levels" target="_blank" rel="noopener">SparkFun — Logic Levels</a> — what 0/1 actually are electrically. Bridges straight from today's ADC discussion.</li>
+      <li><a href="https://learn.sparkfun.com/tutorials/logic-levels" target="_blank" rel="noopener">SparkFun — Logic Levels</a> — what 0/1 actually are electrically. Ties into next session's ADC discussion.</li>
       <li><a href="https://learn.sparkfun.com/tutorials/i2c" target="_blank" rel="noopener">SparkFun — I²C</a> — read through the protocol overview; skip register-level detail for now.</li>
       <li><a href="https://learn.sparkfun.com/tutorials/how-to-read-a-datasheet" target="_blank" rel="noopener">SparkFun — How to Read a Datasheet</a></li>
     </ul>
