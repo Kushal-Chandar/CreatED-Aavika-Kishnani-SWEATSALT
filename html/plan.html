@@ -234,7 +234,7 @@ footer .changelog-item b{
 
     <h3>MCU &amp; power</h3>
     <ul>
-      <li><strong>Seeed XIAO ESP32-C3</strong> (or S3) — thumb-sized, WiFi+BLE, onboard LiPo charge IC + JST-PH connector, USB-C doubles as charge port and programmer</li>
+      <li><strong>Seeed XIAO ESP32-C3</strong> — thumb-sized, WiFi+BLE, onboard LiPo charge IC + JST-PH connector, USB-C doubles as charge port and programmer. MCU decided in session 3 (single-core; S3's dual-core wasn't needed for the pipeline).</li>
       <li>LiPo pouch cell, 3.7V, 150–300mAh, JST-PH 2.0 connector</li>
       <li>Battery level sensing: 2× 220kΩ voltage divider, LiPo+ to GND, midpoint to <code>A0</code> — halves 4.2V→2.1V into the 3.3V ADC range, ~9.5µA idle draw</li>
       <li>Status LED: GPIO <code>D1</code> → 330Ω → LED → GND — solid while charging, blink below 20%, off otherwise</li>
@@ -263,7 +263,7 @@ footer .changelog-item b{
     </div>
 
     <h3>Wearable form factor</h3>
-    <p>Sensors mounted on the inner (volar) face of an elastic/velcro wristband strap, wired to a watch-face electronics module. Module housing: small clear project box — the stacked breakouts + battery + perfboard are bulkier than a custom PCB would be, so a generic box gives fitting headroom. This will read as a maker prototype, not a commercial product — acceptable for MVP.</p>
+    <p>Sensors mounted on the inner (volar) face of an elastic/velcro wristband strap, wired to a curved pad on top of the wrist holding all electronics. Housing: custom 3D-printed <strong>open-style enclosure</strong> modeled around the copper-tape PCB's real footprint (not a compact watch form factor — that level of CAD is a practice-earned skill, out of teaching scope). Simple top enclosure with one screen cutout, no bottom cover — GSR pads, temp sensor, and PPG exposed on the deck underside per the finalized concept design. This will read as a maker prototype, not a commercial product — acceptable for MVP.</p>
   </section>
 
   <section id="firmware">
