@@ -226,8 +226,8 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
     <h2>Swap R2 for your skin. That's the whole sensor.</h2>
     <p class="lede">Your skin has resistance. Sweat glands fill with sweat, skin resistance drops. Replace the bottom resistor in the divider with your skin, and Vout moves — that's the entire GSR sensing principle, no black box.</p>
     <div class="spec-cell">
-      <h4>Sweat ↑ → resistance ↓ → Vout ↑</h4>
-      <p>More sweat = lower skin resistance = R2 shrinks = Vout rises (Vout moves toward the R1 side... check the direction yourself in the sim below with the slider).</p>
+      <h4>Sweat ↑ → resistance ↓ → Vout ↓</h4>
+      <p>More sweat = lower skin resistance = R2 shrinks = Vout falls toward 0V — R2 is shrinking relative to R1, so less of the 3.3V shows up at the midpoint.</p>
     </div>
     <a class="falstad-link" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">Open Falstad — build: divider with a "skin" slider resistor</a>
     <p class="prompt-box"><span class="label">Predict first</span>Drag the skin-resistance slider from high to low. Predict which direction Vout moves before you drag — then confirm.</p>
@@ -286,14 +286,14 @@ void loop() {
     <p class="lede">Wokwi's potentiometer is a knob, not a real resistor pair — it can't model your GSR's actual electrical behavior. But it stands in for one thing accurately: a variable voltage that the ADC digitizes, exactly like your divider's Vout.</p>
     <div class="spec-cell">
       <h4>Build in Wokwi</h4>
-      <p>Add a potentiometer. Wire: SIG → GPIO0, VCC → 3V3, GND → GND.</p>
+      <p>Add a potentiometer. Wire: SIG → GPIO3, VCC → 3V3, GND → GND. The ESP32-C3's ADC is 12-bit — expect readings from 0 to 4095, not the 8-bit 0–255 or 10-bit 0–1023 ranges you may have seen on other boards.</p>
     </div>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>void setup() {
   Serial.begin(115200);
 }
 
 void loop() {
-  int value = analogRead(0);
+  int value = analogRead(3);
   Serial.println(value);
   delay(100);
 }</code></pre>
