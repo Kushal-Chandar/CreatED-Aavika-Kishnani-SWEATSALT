@@ -167,6 +167,11 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 .falstad-link::before{content:"⚡";}
 .decision-box{border:2px dashed var(--line);border-radius:10px;padding:1.2rem;margin:1.2rem 0;min-height:5rem;}
 .decision-box .db-label{font-family:"Plex Mono",ui-monospace,monospace;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim);}
+.reading-list{list-style:none;padding:0;margin:1.2rem 0 0;}
+.reading-list li{position:relative;padding:.5rem 0 .5rem 1.4rem;border-top:1px solid var(--line);font-size:.88rem;}
+.reading-list li:first-child{border-top:1px solid var(--line);}
+.reading-list li::before{content:"→";color:var(--teal);position:absolute;left:0;top:.5rem;}
+.reading-list a{color:var(--ink);}
 @media(max-width:600px){.two-col,.spec-grid{grid-template-columns:1fr;}}
 </style>
 
