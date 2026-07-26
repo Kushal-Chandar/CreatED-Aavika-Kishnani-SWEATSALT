@@ -268,7 +268,8 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
     <h2>ESP32-C3 or S3? Your call, your reasoning.</h2>
     <p class="lede">Every job this device does ends up on one chip: sample sensors → clean/fuse the signal → drive OLED + vibration → hold a BLE connection. Single-core C3 or dual-core S3?</p>
     <div class="decision-box">
-      <p class="db-label">Decision — filled in live</p>
+      <p class="db-label">Decision</p>
+      <p>ESP32-C3 (single-core). Walked the pipeline job by job — nothing needed a dedicated second core, so the S3's extra silicon would've been dead weight.</p>
     </div>
     <p class="prompt-box"><span class="label">Walk through it</span>For each job in the pipeline: does it need its own core, or can it share? Where does the S3's second core actually buy you something — and where is it dead weight?</p>
   </div>
