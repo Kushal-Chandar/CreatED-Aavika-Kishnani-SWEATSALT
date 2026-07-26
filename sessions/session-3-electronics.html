@@ -167,11 +167,6 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 .falstad-link::before{content:"⚡";}
 .decision-box{border:2px dashed var(--line);border-radius:10px;padding:1.2rem;margin:1.2rem 0;min-height:5rem;}
 .decision-box .db-label{font-family:"Plex Mono",ui-monospace,monospace;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim);}
-.reading-list{list-style:none;padding:0;margin:1.2rem 0 0;}
-.reading-list li{position:relative;padding:.5rem 0 .5rem 1.4rem;border-top:1px solid var(--line);font-size:.88rem;}
-.reading-list li:first-child{border-top:1px solid var(--line);}
-.reading-list li::before{content:"→";color:var(--teal);position:absolute;left:0;top:.5rem;}
-.reading-list a{color:var(--ink);}
 @media(max-width:600px){.two-col,.spec-grid{grid-template-columns:1fr;}}
 </style>
 
@@ -274,18 +269,12 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 7: session 4 preview + reading -->
+<!-- 7: session 4 preview -->
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">6</span>Looking ahead</p>
-    <h2>Session 4 — voltage dividers, GSR, ADC, digital signals, I²C, datasheets.</h2>
-    <p class="lede">We pick up series/parallel right where we left off: two resistors in series become a voltage divider, and swapping one resistor for your own skin turns that divider into your GSR sensor. Read these before session 4, not during it — so session time goes to questions, not first exposure.</p>
-    <ul class="reading-list">
-      <li><a href="https://learn.sparkfun.com/tutorials/logic-levels" target="_blank" rel="noopener">SparkFun — Logic Levels</a> — what 0/1 actually are electrically. Ties into next session's ADC discussion.</li>
-      <li><a href="https://learn.sparkfun.com/tutorials/i2c" target="_blank" rel="noopener">SparkFun — I²C</a> — read through the protocol overview; skip register-level detail for now.</li>
-      <li><a href="https://learn.sparkfun.com/tutorials/how-to-read-a-datasheet" target="_blank" rel="noopener">SparkFun — How to Read a Datasheet</a></li>
-    </ul>
-    <p class="prompt-box teal"><span class="label">Applied exercise</span>Skim page 1 of the MAX30205 datasheet — your actual skin-temp sensor. Write down three things you understood and three you didn't. The "didn't" list opens session 4.</p>
+    <h2>Session 4 — voltage dividers, GSR, ADC, and your first real code on the chip.</h2>
+    <p class="lede">We pick up series/parallel right where we left off: two resistors in series become a voltage divider, and swapping one resistor for your own skin turns that divider into your GSR sensor. Then we meet the ESP32-C3 for real — GPIO, blink, and reading that sensor's voltage as an actual number.</p>
   </div>
 </section>
 
