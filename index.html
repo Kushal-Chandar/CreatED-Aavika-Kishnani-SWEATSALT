@@ -83,6 +83,9 @@ nav.links{display:flex; flex-direction:column; gap:.9rem;}
 .sub-card:hover{border-color:var(--teal);}
 .sub-card .sc-title{font-weight:600;}
 .sub-card .sc-date{font-family:"Plex Mono",ui-monospace,monospace; font-size:.75rem; color:var(--ink-dim);}
+.sub-card.preview{border-style:dashed; opacity:.6; cursor:default;}
+.sub-card.preview:hover{border-color:var(--line);}
+.sub-card.preview .sc-date{font-style:italic;}
 </style>
 </head>
 <body>
@@ -117,9 +120,25 @@ nav.links{display:flex; flex-direction:column; gap:.9rem;}
       <span class="sc-date">2026-07-25</span>
     </a>
     <a class="sub-card" href="sessions/session-4-mcu-adc.html">
-      <span class="sc-title">Session 4 — Voltage dividers, GSR &amp; the ESP32-C3</span>
+      <span class="sc-title">Session 4 — The ESP32-C3 &amp; the ADC</span>
       <span class="sc-date">2026-07-26</span>
     </a>
+    <a class="sub-card" href="sessions/session-5-divider-gsr.html">
+      <span class="sc-title">Session 5 — Voltage dividers, GSR &amp; GPIO logic (2 Hrs)</span>
+      <span class="sc-date">2026-07-26</span>
+    </a>
+    <div class="sub-card preview">
+      <span class="sc-title">Session 6 — I2C &amp; datasheets</span>
+      <span class="sc-date">preview</span>
+    </div>
+    <div class="sub-card preview">
+      <span class="sc-title">Session 7 — Review &amp; practicals</span>
+      <span class="sc-date">preview</span>
+    </div>
+    <div class="sub-card preview">
+      <span class="sc-title">Session 8 — Review &amp; practicals</span>
+      <span class="sc-date">preview</span>
+    </div>
   </div>
 </div>
 </body>
