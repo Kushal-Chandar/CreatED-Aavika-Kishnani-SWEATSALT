@@ -193,40 +193,78 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>Six sessions of foundations. Today: review, drill, and one demo — no new theory.</h2>
-    <p class="lede">Sessions 1-6 built the pieces one at a time — power, resistors, dividers, the ADC, digital logic, GPIO. Today closes the loop before Phase 2 (real sensors) starts.</p>
+    <h2>Six sessions of foundations, then the piece that ties your sensor stack together.</h2>
+    <p class="lede">Sessions 1-6 built the pieces one at a time — power, resistors, dividers, the ADC, digital logic, GPIO. Today: I2C and datasheets, for real, then review and drills before Phase 2 (real sensors) starts.</p>
     <ol class="tracks">
-      <li><div><h3>Homework review</h3><p>I2C reading, datasheet reading, the MAX30205 skim.</p></div></li>
+      <li><div><h3>I2C &amp; datasheets</h3><p>The protocol every one of your real sensors talks over, and reading the MAX30205's actual datasheet.</p></div></li>
       <li><div><h3>Revision</h3><p>Sessions 1-6, one thread, condensed.</p></div></li>
-      <li><div><h3>Five drills + a demo</h3><p>Rebuild each piece from memory, then watch it become the shape of the real device.</p></div></li>
+      <li><div><h3>Three drills + a demo</h3><p>Rebuild each piece from memory, then watch it become the shape of the real device.</p></div></li>
     </ol>
   </div>
 </section>
 
-<!-- 3: homework review -->
+<!-- 3: homework check-in -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">2</span>Homework review</p>
-    <h2>I2C, datasheets, and the sensor you'll actually use.</h2>
-    <p class="lede">Discussion, not a re-teach — you did the reading, now walk it back.</p>
+    <p class="kicker"><span class="num">2</span>Homework check-in</p>
+    <h2>Quick pulse-check — then we go deeper together.</h2>
+    <p class="lede">You read the SparkFun I2C overview and watched the datasheet video. Before the real thing: any blockers, anything that didn't click?</p>
+    <p class="prompt-box teal"><span class="label">MAX30205 skim</span>Your three understood / three not from the datasheet skim — bring them up as we go through the real datasheet next.</p>
+  </div>
+</section>
+
+<!-- 4: I2C protocol -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">3</span>I2C — the protocol</p>
+    <h2>Two wires, one bus, every sensor gets its own address.</h2>
+    <p class="lede">Every sensor so far has used its own dedicated pin — GSR on one ADC pin, the pot on another, the button on a GPIO. I2C breaks that pattern: SDA (data) and SCL (clock), shared by every device on the bus. The MCU picks who it's talking to by address, not by wire.</p>
     <div class="spec-grid">
       <div class="spec-cell">
-        <h4>I2C protocol</h4>
-        <p>From the SparkFun overview: what makes it different from the wires you've used so far (power, GND, one signal pin)?</p>
+        <h4>Why not just more pins?</h4>
+        <p>The ESP32-C3 has a limited number of GPIO pins. Your real sensor stack — MPU-6050, MAX30205, and the rest — all share the same two wires instead of eating a pin each.</p>
       </div>
       <div class="spec-cell">
-        <h4>Reading a datasheet</h4>
-        <p>From Becky Stern's video: what's the first thing you actually look for on page 1 of a part you've never seen?</p>
+        <h4>Address, not a wire</h4>
+        <p>Each device on the bus answers to a fixed address. The MCU sends the address first — only that device responds, everyone else stays quiet.</p>
       </div>
     </div>
-    <p class="prompt-box teal"><span class="label">Bring your answers</span>MAX30205 — your actual skin-temp sensor. Three things you understood, three you didn't. We work through the gaps together.</p>
+  </div>
+</section>
+
+<!-- 5: datasheet walkthrough -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">4</span>Reading a datasheet — for real</p>
+    <h2>Your actual sensor, page by page: the MAX30205.</h2>
+    <p class="lede">Not a hypothetical part — this is going in the real device. Open the datasheet and find these before we move on.</p>
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <h4>Pinout &amp; power</h4>
+        <p>2.7V–3.3V supply, 600µA — check this against the 3.3V rail from session 3.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>I2C address</h4>
+        <p>Three address-select pins (A0–A2) give up to 32 possible addresses — how the MCU tells this sensor apart from every other device on the bus.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>What it measures</h4>
+        <p>A high-resolution sigma-delta ADC converts temperature straight to a digital value over I2C — no analogRead() needed for this one.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Overtemp alarm pin</h4>
+        <p>A built-in interrupt/shutdown output fires if temperature crosses a set threshold — a hardware version of the pot+LED demo coming up.</p>
+      </div>
+    </div>
+    <a class="falstad-link" href="https://www.analog.com/media/en/technical-documentation/data-sheets/max30205.pdf" target="_blank" rel="noopener">Open the MAX30205 datasheet (PDF)</a>
+    <p class="prompt-box"><span class="label">Find it</span>Locate the I2C address bits and the overtemp alarm pin description before we move on — datasheets aren't meant to be read cover to cover.</p>
   </div>
 </section>
 
 <!-- 4: revision walkthrough -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>Six sessions, one thread</p>
+    <p class="kicker"><span class="num">5</span>Six sessions, one thread</p>
     <h2>Every session built on the one before it — here's the chain.</h2>
     <p class="lede">Fast pass, not a re-teach. Say the idea back before we move on.</p>
     <div class="spec-grid">
@@ -258,25 +296,10 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 5: drill 1 - ohm's law -->
+<!-- 6: drill 1 - voltage divider -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>Drill 1 — Ohm's law</p>
-    <h2>Size a resistor from scratch, no notes.</h2>
-    <p class="lede">Same math as session 3's LED sizing. Solve it on paper first, then confirm in Wokwi.</p>
-    <div class="spec-cell">
-      <h4>The problem</h4>
-      <p>3.3V supply, LED forward voltage 2V, target current 10mA. Solve R = (Vsupply − Vf) / I before you touch Wokwi.</p>
-    </div>
-    <a class="falstad-link" href="https://wokwi.com/projects/new/esp32-c3" target="_blank" rel="noopener">Open Wokwi — build: LED + your resistor value</a>
-    <p class="prompt-box"><span class="label">Predict first</span>Write down your R value before wiring it. Build it — does the LED look right, not dim, not fried?</p>
-  </div>
-</section>
-
-<!-- 6: drill 2 - voltage divider -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>Drill 2 — Voltage divider</p>
+    <p class="kicker"><span class="num">6</span>Drill 1 — Voltage divider</p>
     <h2>Predict Vout, then build it in Falstad.</h2>
     <p class="lede">Same formula as session 4, cold.</p>
     <div class="spec-cell">
@@ -288,10 +311,10 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 7: drill 3 - adc -->
+<!-- 7: drill 2 - adc -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>Drill 3 — ADC</p>
+    <p class="kicker"><span class="num">7</span>Drill 2 — ADC</p>
     <h2>analogRead() a potentiometer, cross-check against the math.</h2>
     <p class="lede">This chip's ADC is 12-bit — 0 to 4095, not the 0-1023 you'll see in older tutorials.</p>
     <div class="spec-cell">
@@ -314,35 +337,10 @@ void loop() {
   </div>
 </section>
 
-<!-- 8: drill 4 - gpio digital -->
+<!-- 8: drill 3 - button + debounce from memory -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">7</span>Drill 4 — GPIO digital</p>
-    <h2>Drive a second LED HIGH and LOW, no blink helper.</h2>
-    <p class="lede">Session 4's blink used delay() to fake a rhythm. This time, tie the LED to a live condition instead.</p>
-    <div class="spec-cell">
-      <h4>Build in Wokwi</h4>
-      <p>Add a second LED + resistor on a new GPIO pin. Light it only while the potentiometer from drill 3 reads above its midpoint — no delay(), just digitalWrite() driven by the analogRead() value.</p>
-    </div>
-    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define LED_PIN 2
-
-void setup() {
-  pinMode(LED_PIN, OUTPUT);
-}
-
-void loop() {
-  int raw = analogRead(POT_PIN);
-  digitalWrite(LED_PIN, raw > 2048 ? HIGH : LOW);
-}</code></pre>
-    <a class="falstad-link" href="https://wokwi.com/projects/new/esp32-c3" target="_blank" rel="noopener">Open Wokwi — add the LED to drill 3's circuit</a>
-    <p class="prompt-box"><span class="label">Predict first</span>At the pot's midpoint exactly, is the LED on or off? What decides it?</p>
-  </div>
-</section>
-
-<!-- 9: drill 5 - button + debounce from memory -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">8</span>Drill 5 — Button + debounce, from memory</p>
+    <p class="kicker"><span class="num">8</span>Drill 3 — Button + debounce, from memory</p>
     <h2>Rebuild session 6's circuit and code — no notes.</h2>
     <p class="lede">Same button + pull-down + debounce as last session. This time: wiring first, then code, from memory.</p>
     <p class="prompt-box teal"><span class="label">No notes</span>Wire it, write it, run it. Check against session 6's deck only after you've tried.</p>
@@ -354,6 +352,7 @@ void loop() {
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">9</span>Mentor demo</p>
+
     <h2>A knob, a button, and one LED — the shape of the real device.</h2>
     <p class="lede">Watch, don't build: a potentiometer standing in for a GSR reading, a threshold standing in for a risk score, and an LED that lights when the "risk" value crosses the line.</p>
     <div class="spec-cell">
