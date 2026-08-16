@@ -198,7 +198,6 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
     <ol class="tracks">
       <li><div><h3>LED matrix loops</h3><p>Your first real <code>for</code> loop, then a few pattern swaps.</p></div></li>
       <li><div><h3>OLED + button + pot</h3><p>The same I2C display your wrist device will actually use.</p></div></li>
-      <li><div><h3>Buzzer, if there's time</h3><p>No pressure — bonus only.</p></div></li>
     </ol>
   </div>
 </section>
@@ -317,30 +316,10 @@ void loop() {
   </div>
 </section>
 
-<!-- 7: buzzer bonus -->
+<!-- 7: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>Buzzer — bonus, only if there's time</p>
-    <h2>Button press, buzzer beep, OLED flashes "BEEP!"</h2>
-    <p class="lede">Purely optional capper. Skip it without a second thought if the clock's tight.</p>
-    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define BUZZER_PIN 6
-
-void loop() {
-  if (digitalRead(BUTTON_PIN) == HIGH) {
-    tone(BUZZER_PIN, 1000, 200);
-    display.clearDisplay();
-    display.setCursor(20, 20);
-    display.print("BEEP!");
-    display.display();
-  }
-}</code></pre>
-  </div>
-</section>
-
-<!-- 8: wrap -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">7</span>Wrap</p>
+    <p class="kicker"><span class="num">6</span>Wrap</p>
     <h2>Phase 1, officially done.</h2>
     <p class="lede">Power, resistors, dividers, the ADC, digital logic, GPIO, I2C, datasheets — all covered, all drilled. Phase 2 starts with real sensors: the GSR, PPG, and temp readings feeding the actual risk-score pipeline this matrix and OLED just previewed the shape of.</p>
   </div>
