@@ -198,6 +198,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
     <ol class="tracks">
       <li><div><h3>LED matrix loops</h3><p>Your first real <code>for</code> loop, then a few pattern swaps.</p></div></li>
       <li><div><h3>OLED + button + pot</h3><p>The same I2C display your wrist device will actually use.</p></div></li>
+      <li><div><h3>Servo, if there's time</h3><p>Bonus only — button press swings it to an angle.</p></div></li>
     </ol>
   </div>
 </section>
@@ -316,10 +317,35 @@ void loop() {
   </div>
 </section>
 
-<!-- 7: wrap -->
+<!-- 7: servo bonus -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>Wrap</p>
+    <p class="kicker"><span class="num">6</span>Servo — bonus, only if there's time</p>
+    <h2>Button press, servo swings to an angle.</h2>
+    <p class="lede">No PWM theory today — <code>servo.write()</code> just takes an angle and moves there, treat it as a black box for now. Purely optional capper; skip it without a second thought if the clock's tight.</p>
+    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;ESP32Servo.h&gt;
+#define SERVO_PIN 6
+Servo arm;
+int pos = 0;
+
+void setup() {
+  arm.attach(SERVO_PIN);
+}
+
+void loop() {
+  if (digitalRead(BUTTON_PIN) == HIGH) {
+    pos = (pos == 0) ? 90 : 0;
+    arm.write(pos);
+    delay(200);
+  }
+}</code></pre>
+  </div>
+</section>
+
+<!-- 8: wrap -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">7</span>Wrap</p>
     <h2>Phase 1, officially done.</h2>
     <p class="lede">Power, resistors, dividers, the ADC, digital logic, GPIO, I2C, datasheets — all covered, all drilled. Phase 2 starts with real sensors: the GSR, PPG, and temp readings feeding the actual risk-score pipeline this matrix and OLED just previewed the shape of.</p>
   </div>
