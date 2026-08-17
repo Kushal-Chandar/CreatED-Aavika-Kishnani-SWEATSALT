@@ -194,54 +194,21 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
     <h2>Phase 1 is done. Today's just for fun before Phase 2 starts.</h2>
-    <p class="lede">Session 7 closed out the foundations — power, dividers, ADC, digital logic, GPIO, I2C, datasheets. Nothing new gets taught today. Instead: real hardware, on the table, in your hands.</p>
+    <p class="lede">Session 7 closed out the foundations — power, dividers, ADC, digital logic, GPIO, I2C, datasheets. Nothing new gets taught today. Instead: real hardware, on the table, in your hands. LED matrix wasn't in yet, so today's all on the OLED — matrix and servo move to session 9.</p>
     <ol class="tracks">
-      <li><div><h3>LED matrix loops</h3><p>Your first real <code>for</code> loop, then a few pattern swaps.</p></div></li>
+      <li><div><h3>Your first real loop</h3><p>A <code>for</code> loop drawing across the OLED, one pixel at a time.</p></div></li>
+      <li><div><h3>OLED pattern gallery</h3><p>Button cycles through a handful of loop-driven patterns.</p></div></li>
       <li><div><h3>OLED + button + pot</h3><p>The same I2C display your wrist device will actually use.</p></div></li>
-      <li><div><h3>Servo, if there's time</h3><p>Bonus only — button press swings it to an angle.</p></div></li>
     </ol>
   </div>
 </section>
 
-<!-- 3: matrix loop demo -->
+<!-- 3: oled loop demo -->
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">2</span>Your first real loop</p>
-    <h2>One LED at a time, in a for loop — a chase pattern.</h2>
-    <p class="lede">Every sketch so far read one value per pass through <code>loop()</code>. This is different: a <code>for</code> loop steps through every pixel on the matrix, one at a time, inside a single frame.</p>
-    <div class="spec-cell">
-      <h4>Wire it up</h4>
-      <p>Matrix data pin → a GPIO pin (5V logic — check your matrix's datasheet against this chip's 3.3V output, a level shifter may be needed depending on the module). Power the matrix from a separate 5V supply if it draws more current than the board can source.</p>
-    </div>
-    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;Adafruit_NeoPixel.h&gt;
-#define LED_PIN 5
-#define NUM_LEDS 64  // set to your matrix's actual pixel count
-
-Adafruit_NeoPixel matrix(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
-
-void setup() {
-  matrix.begin();
-  matrix.setBrightness(40);
-}
-
-void loop() {
-  for (int i = 0; i &lt; NUM_LEDS; i++) {
-    matrix.clear();
-    matrix.setPixelColor(i, matrix.Color(255, 0, 0));
-    matrix.show();
-    delay(50);
-  }
-}</code></pre>
-    <p class="prompt-box"><span class="label">Try it</span>Change <code>delay(50)</code> to <code>delay(5)</code> and to <code>delay(300)</code> — what does the loop's speed actually control?</p>
-  </div>
-</section>
-
-<!-- 4: plan b fallback -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>Plan B</p>
-    <h2>No matrix yet? Run the same loop idea on the OLED instead.</h2>
-    <p class="lede">Same concept — a <code>for</code> loop drawing across pixels one step at a time — just on the I2C display instead of the matrix. Swap this in if the matrix hasn't arrived; skip it entirely if it has.</p>
+    <h2>A for loop, drawing across the OLED one pixel at a time.</h2>
+    <p class="lede">Every sketch so far read one value per pass through <code>loop()</code>. This is different: a <code>for</code> loop steps through a run of pixels, one at a time, inside a single frame.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;Wire.h&gt;
 #include &lt;Adafruit_GFX.h&gt;
 #include &lt;Adafruit_SSD1306.h&gt;
@@ -259,33 +226,42 @@ void loop() {
     delay(30);
   }
 }</code></pre>
+    <p class="prompt-box"><span class="label">Try it</span>Change <code>delay(30)</code> to <code>delay(5)</code> and to <code>delay(200)</code> — what does the loop's speed actually control?</p>
   </div>
 </section>
 
-<!-- 5: matrix pattern gallery -->
+<!-- 4: oled pattern gallery -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>Pattern gallery</p>
-    <h2>Same loop skeleton, different logic inside it.</h2>
-    <p class="lede">Three quick swaps — each one is the chase loop's structure with one line changed.</p>
+    <p class="kicker"><span class="num">3</span>Pattern gallery</p>
+    <h2>Same loop skeleton, different logic inside it — button picks which.</h2>
+    <p class="lede">A button press cycles through four patterns, each one the same draw-clear-display loop with different math inside it.</p>
     <div class="spec-grid">
       <div class="spec-cell">
-        <h4>Rainbow cycle</h4>
-        <p><code>matrix.setPixelColor(i, matrix.gamma32(matrix.ColorHSV(i * 65536L / NUM_LEDS)));</code> inside the same for loop — hue instead of a fixed color.</p>
+        <h4>Sweep dot</h4>
+        <p>The loop from the previous slide — one pixel, sweeping left to right.</p>
       </div>
       <div class="spec-cell">
-        <h4>Blink-all</h4>
-        <p><code>matrix.fill(matrix.Color(0,255,0)); matrix.show(); delay(300);</code> then <code>matrix.clear()</code> — no loop needed at all, the contrast is the point.</p>
+        <h4>Bouncing ball</h4>
+        <p><code>fillCircle()</code> at a y-position that counts up then back down — a bounce out of arithmetic, not a physics engine.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Expanding circle</h4>
+        <p><code>drawCircle()</code> with a radius that grows every frame, wrapping back to zero.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Sine bar wave</h4>
+        <p><code>drawFastVLine()</code> per column, height driven by <code>sin()</code> — the loop variable becomes the wave's phase.</p>
       </div>
     </div>
-    <p class="prompt-box"><span class="label">Predict first</span>Before running rainbow cycle: will neighboring pixels be similar colors or random ones? Why?</p>
+    <p class="prompt-box"><span class="label">Predict first</span>Before running the sine wave: will the bars move smoothly or jump? What in the code controls that?</p>
   </div>
 </section>
 
 <!-- 6: oled + button + pot -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>OLED + button + pot</p>
+    <p class="kicker"><span class="num">4</span>OLED + button + pot</p>
     <h2>The actual display tech your wrist device will use.</h2>
     <p class="lede">Same I2C wiring pattern from session 7's MAX30205 walkthrough — this time it's a screen, not a sensor. Button cycles what's shown; the pot drives a live value.</p>
     <div class="spec-cell">
@@ -317,37 +293,18 @@ void loop() {
   </div>
 </section>
 
-<!-- 7: servo bonus -->
+<!-- 7: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>Servo — bonus, only if there's time</p>
-    <h2>Button press, servo swings to an angle.</h2>
-    <p class="lede">No PWM theory today — <code>servo.write()</code> just takes an angle and moves there, treat it as a black box for now. Purely optional capper; skip it without a second thought if the clock's tight.</p>
-    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;ESP32Servo.h&gt;
-#define SERVO_PIN 6
-Servo arm;
-int pos = 0;
-
-void setup() {
-  arm.attach(SERVO_PIN);
-}
-
-void loop() {
-  if (digitalRead(BUTTON_PIN) == HIGH) {
-    pos = (pos == 0) ? 90 : 0;
-    arm.write(pos);
-    delay(200);
-  }
-}</code></pre>
-  </div>
-</section>
-
-<!-- 8: wrap -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">7</span>Wrap</p>
-    <h2>Phase 1, officially done.</h2>
-    <p class="lede">Power, resistors, dividers, the ADC, digital logic, GPIO, I2C, datasheets — all covered, all drilled. Phase 2 starts with real sensors: the GSR, PPG, and temp readings feeding the actual risk-score pipeline this matrix and OLED just previewed the shape of.</p>
+    <p class="kicker"><span class="num">5</span>Wrap + before next time</p>
+    <h2>Loops on the OLED, done and drilled.</h2>
+    <p class="lede">Phase 1's still officially closed — today was pure hands-on play, no new theory. Session 9 (next Saturday, 1 hour) picks up the LED matrix loop demo and the servo bonus that didn't fit today.</p>
+    <p class="prompt-box teal"><span class="label">Before session 9 — simple practice</span></p>
+    <ol class="tracks">
+      <li><div><h3>Reverse the sweep</h3><p>Make the sweep-dot loop travel right to left instead of left to right — one line changes.</p></div></li>
+      <li><div><h3>Speed it up, slow it down</h3><p>Try three different <code>delay()</code> values on the sweep loop and pattern gallery — notice which patterns still look smooth and which start to stutter.</p></div></li>
+      <li><div><h3>Add a fifth pattern</h3><p>Copy one of the four gallery patterns, tweak the math inside it, and get the button to cycle into it as a new option.</p></div></li>
+    </ol>
   </div>
 </section>
 
