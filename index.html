@@ -186,9 +186,11 @@ nav.links{display:flex; flex-direction:column; gap:.9rem;}
   if (showAll) return;
   var today = new Date();
   today.setHours(0,0,0,0);
-  document.querySelectorAll('.sub-card[data-date]').forEach(function(el){
-    var d = new Date(el.getAttribute('data-date') + 'T00:00:00');
-    if (d > today) {
+  document.querySelectorAll('.sub-card').forEach(function(el){
+    var dateAttr = el.getAttribute('data-date');
+    var isFuture = dateAttr && new Date(dateAttr + 'T00:00:00') > today;
+    var isTbd = !dateAttr;
+    if (isFuture || isTbd) {
       el.classList.add('preview');
       el.removeAttribute('href');
       var dateEl = el.querySelector('.sc-date');
