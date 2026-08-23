@@ -192,8 +192,8 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>Temp is working. Today: motion.</h2>
-    <p class="lede">Session 10 brought up the MAX30205 over I2C. The MPU6050 shares that same bus (address <code>0x68</code>, no conflict with the temp sensor's <code>0x48-0x4F</code>) — but raw motion data alone is noisy. Today's the biggest technical step yet in Phase 2.</p>
+    <h2>Motion is next: raw data, then filtered.</h2>
+    <p class="lede">MPU6050 sits on its own I2C bus address (<code>0x68</code> — clear of the temp sensor's <code>0x48-0x4F</code>, whenever it lands on the same bus later). Raw motion data alone is noisy. Today's the biggest technical step yet in Phase 2.</p>
     <ol class="tracks">
       <li><div><h3>Raw accel + gyro</h3><p>Read the MPU6050 directly — and see why it's noisy.</p></div></li>
       <li><div><h3>Kalman filter</h3><p>A black-boxed fusion filter that fixes that.</p></div></li>
@@ -296,8 +296,8 @@ while True:
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">5</span>Wrap</p>
-    <h2>Motion is fused and visualized. Two sensors left.</h2>
-    <p class="lede">Temp and IMU are both individually working now. Next: GSR + the pulse sensor (session 12), then power/status wiring (session 13), then the schematic that closes Phase 2 out (session 14).</p>
+    <h2>Motion is fused and visualized. Three sensors left.</h2>
+    <p class="lede">IMU is individually working now. Next: temp + GSR + the pulse sensor together (session 12), then power/status wiring (session 13), then the schematic that closes Phase 2 out (session 14).</p>
   </div>
 </section>
 
