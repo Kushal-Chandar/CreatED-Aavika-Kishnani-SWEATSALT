@@ -322,13 +322,15 @@ footer .changelog-item b{
     <p class="sec-label">04 — App</p>
     <h2>Companion app — decided, in scope.</h2>
     <div class="callout teal">
-      <span class="callout-label">Resolved, 2026-07-19</span>
-      <p>PWA with a Web Bluetooth extension — one codebase for Android and iPhone.</p>
+      <span class="callout-label">Resolved, 2026-07-19; rescoped 2026-08-24</span>
+      <p>PWA with Web Bluetooth — one codebase for Android and iPhone. Kushal builds it; Phase 3 is one 2-hour demo + integration session.</p>
     </div>
     <ul>
       <li><strong>Device works standalone without any app</strong> — the on-device vibration motor is the MVP's real-time alert path regardless of app status. The app is an additive readout, not a blocker.</li>
       <li><strong>Android:</strong> Web Bluetooth is supported natively in Chrome/Edge — the PWA works day one, no wrapper needed.</li>
-      <li><strong>iPhone:</strong> Safari does not expose Web Bluetooth. A thin native wrapper is required — documented as a known limitation, and likely to land as a guided demo / stretch goal rather than a fully taught skill (Phase 3 is the tightest phase in the schedule).</li>
+      <li><strong>iPhone:</strong> Safari doesn't expose Web Bluetooth — resolved with a Web-Bluetooth-enabling browser/extension (e.g. Bluefy) instead of a native wrapper. No native app build on either platform.</li>
+      <li><strong>Who builds it:</strong> Kushal builds the app himself, including a JSON-based theme/layout editor so Aavika gets a hands-on "builder feel" — customizing the app's look without writing its code.</li>
+      <li><strong>Session:</strong> Phase 3 compresses to one 2-hour session (2026-09-13) — demo the finished app, light BLE/architecture teaching, hands-on theme editing, live BLE integration with her real hardware — then straight to Phase 4.</li>
       <li><strong>Firmware:</strong> exposes sensor data over a generic BLE characteristic layout so either platform's app can read it the same way.</li>
     </ul>
   </section>
