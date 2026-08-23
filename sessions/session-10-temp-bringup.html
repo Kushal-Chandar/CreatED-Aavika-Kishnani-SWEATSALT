@@ -179,7 +179,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   <div class="slide-inner">
     <p class="brand">SweatSalt</p>
     <h1>Phase 2<br>Begins</h1>
-    <p class="sub">BOM discussion, then the first real Phase 2 sensor: skin temperature.</p>
+    <p class="sub">BOM discussion, a soldering demo, then the first real Phase 2 sensor: skin temperature.</p>
     <div class="people">
       <div><p class="who">Mentor</p><p class="name">Kushal Chandar</p></div>
       <div><p class="who">Student</p><p class="name">Aavika Kishnani</p></div>
@@ -196,6 +196,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
     <p class="lede">Every foundation is in place: power, dividers, ADC, digital logic, GPIO, I2C, datasheets, and real hardware loops (OLED, matrix, servo). Phase 2 is about the actual sensor stack — bring each one up individually, then fuse them into one battery-powered breadboard prototype.</p>
     <ol class="tracks">
       <li><div><h3>BOM discussion</h3><p>What's sourced, what's still in transit, sourcing notes.</p></div></li>
+      <li><div><h3>Soldering demo</h3><p>Mentor demo, watch only — real soldering stays outsourced.</p></div></li>
       <li><div><h3>Temp sensor bring-up</h3><p>MAX30205 over I2C — first real Phase 2 sensor.</p></div></li>
     </ol>
   </div>
@@ -229,10 +230,38 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 4: temp sensor bring-up -->
+<!-- 4: soldering demo (mentor, watch only) -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>First real Phase 2 sensor</p>
+    <p class="kicker"><span class="num">3</span>Mentor demo — watch only</p>
+    <h2>How a solder joint actually gets made.</h2>
+    <p class="lede">Real soldering stays outsourced for safety — Aavika's own hands-on work is copper-tape traces only (Phase 4). This is a live demo, not a hands-on skill: what a good joint looks like before she has to trust one on her own board.</p>
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <h4>Tools</h4>
+        <p>Iron (~315–350°C for leaded solder), rosin-core solder, brass-sponge tip cleaner, helping-hands or vise, ventilation.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Technique</h4>
+        <p>Heat pad and pin together, feed solder to the joint (not the tip), pull solder then iron. Target: a shiny, concave fillet — 2-3 seconds, no drag.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Bad joint tells</h4>
+        <p>Dull/grainy = cold joint (never reached temp). Blob = too much solder. Bridged pins = solder shorting two pads that shouldn't touch.</p>
+      </div>
+      <div class="spec-cell">
+        <h4>Safety</h4>
+        <p>Tip runs 300°C+ — never bare hands, iron stays in its stand when idle, fumes vented away from the face, safety glasses on.</p>
+      </div>
+    </div>
+    <p class="prompt-box teal"><span class="label">Live</span>Header pins soldered onto a spare MAX30205 breakout — same board type used in today's temp bring-up demo next.</p>
+  </div>
+</section>
+
+<!-- 5: temp sensor bring-up -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">4</span>First real Phase 2 sensor</p>
     <h2>Reading real skin temperature over I2C.</h2>
     <p class="lede">Same I2C protocol taught in session 7, now on a sensor that measures something real. MAX30205 sits on the bus at address <code>0x48</code> by default.</p>
     <div class="spec-cell">
@@ -266,10 +295,10 @@ void loop() {
   </div>
 </section>
 
-<!-- 5: wrap -->
+<!-- 6: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>Wrap</p>
+    <p class="kicker"><span class="num">5</span>Wrap</p>
     <h2>One sensor down, three to go.</h2>
     <p class="lede">Temp is working over I2C. Next: IMU gets its own session (Kalman filter + a live 3D visualization), then GSR + the pulse sensor, then power/status wiring, then the schematic that closes Phase 2 out.</p>
   </div>
