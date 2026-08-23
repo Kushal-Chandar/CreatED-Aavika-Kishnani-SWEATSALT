@@ -82,10 +82,18 @@ nav.links{display:flex; flex-direction:column; gap:.9rem;}
 }
 .sub-card:hover{border-color:var(--teal);}
 .sub-card .sc-title{font-weight:600;}
-.sub-card .sc-date{font-family:"Plex Mono",ui-monospace,monospace; font-size:.75rem; color:var(--ink-dim);}
+.sub-card .sc-date{font-family:"Plex Mono",ui-monospace,monospace; font-size:.75rem; color:var(--ink-dim); flex-shrink:0;}
 .sub-card.preview{border-style:dashed; opacity:.6; cursor:default;}
 .sub-card.preview:hover{border-color:var(--line);}
 .sub-card.preview .sc-date{font-style:italic;}
+
+@media (max-width:600px){
+  .wrap{padding:2.5rem 1.1rem;}
+  .link-card{flex-direction:column; align-items:flex-start; gap:.5rem;}
+  .link-card .arrow{display:none;}
+  .sub-card{flex-direction:column; align-items:flex-start; gap:.3rem;}
+  .sub-card .sc-date{font-size:.72rem;}
+}
 </style>
 </head>
 <body>
