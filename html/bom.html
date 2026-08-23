@@ -182,11 +182,11 @@ h1{
   <div class="totals">
     <div class="total-card us">
       <div class="region">Est. total — US</div>
-      <div class="amount">$65 – $95</div>
+      <div class="amount">$85 – $115</div>
     </div>
     <div class="total-card india">
       <div class="region">Total — India</div>
-      <div class="amount">≈ ₹6,500</div>
+      <div class="amount">≈ ₹7,100</div>
     </div>
   </div>
 
@@ -277,6 +277,11 @@ h1{
         <a class="pill pill--ok" href="https://robu.in/product/mpu-6050-gyro-sensor-2-accelerometer/">Robu.in (GY-521)</a>
       </div>
       <div class="bg-cell price" data-label="Price">$13 / ₹169</div>
+
+      <div class="bg-cell" data-label="Part"><div class="part-name">OLED display — SparkFun Qwiic OLED, 1.3in, 128×64</div><div class="part-note">shares the same Qwiic/I2C chain as temp + MPU-6050 (US) — daisy-chains in, no soldering. India: same I2C bus, jumpered like the other India sensors</div></div>
+      <div class="bg-cell srcs" data-label="US sources"><span class="pill pill--warn">SparkFun Qwiic OLED — link not yet verified, check sparkfun.com at checkout</span></div>
+      <div class="bg-cell srcs" data-label="India sources"><span class="pill pill--warn">source locally — generic SSD1306 I2C OLED</span></div>
+      <div class="bg-cell price" data-label="Price">$20 / ≈₹600</div>
     </div>
   </div>
 
@@ -322,6 +327,7 @@ h1{
   <div class="notes">
     <h2>Sourcing notes</h2>
     <ul>
+      <li><strong>OLED was missing from this BOM, added 2026-08-24</strong> — SparkFun Qwiic OLED (1.3in, 128×64) joins the same Qwiic/I2C chain as temp + MPU-6050 on the US side, no soldering. Confirmed against Aavika's final locked US BOM ($191.53 total incl. tools).</li>
       <li><strong>Body temp is now a different part per region</strong> — MAX30205/ProtoCentral was single-source and not stocked by DigiKey in either region. US uses Adafruit's TMP117 (STEMMA QT, ±0.1°C, same accuracy class as MAX30205). India uses a generic MAX30205MTA breakout module off Robu.in (₹749, real order, header pins) — locally available, but not Qwiic, so it needs jumper wires instead of a cable.</li>
       <li><strong>Qwiic/STEMMA QT is US-only now</strong> — TMP117 + MPU-6050 (Adafruit #3886) both have onboard Qwiic connectors and daisy-chain, no soldering past the one XIAO connection point. Heart rate (Pulse Sensor Amped) and India's MAX30205MTA + GY-521 are all plug-in/header-pin, wired with jumpers — no Qwiic needed there.</li>
       <li><strong>Heart rate switched from MAX30105 to Pulse Sensor Amped</strong> — a Qwiic version of the MAX30105 exists (SparkFun SEN-16474, $35, or the algorithm-hub SEN-15219 at $49) but both cost more than the analog Pulse Sensor Amped ($30 US / ₹149 India), which needs no soldering either way. Tradeoff: it clips to a finger or earlobe, not built for wrist mounting — placement matters more here than with an optical PPG sensor.</li>
