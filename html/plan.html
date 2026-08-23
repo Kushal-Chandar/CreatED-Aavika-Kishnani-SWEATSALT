@@ -170,7 +170,7 @@ footer .changelog-item b{
     <p class="byline">
       <span>Mentor: <b>Kushal Chandar</b></span>
       <span>Student: <b>Aavika Kishnani</b></span>
-      <span>2026-07-18</span>
+      <span>Updated 2026-08-24 (v2.5)</span>
     </p>
   </div>
 </header>
@@ -214,19 +214,20 @@ footer .changelog-item b{
       <p>Custom PCB is <strong>out of scope</strong> — a 3D-printed copper-tape board was briefly in scope (2026-07-24), then dropped. Circuit is <strong>free-wired directly into the enclosure</strong> instead, point-to-point, no board. Soldering is flexible — Aavika solders herself or sends it out, her choice, with a tutorial either way (no longer a hard "always outsourced" rule). Enclosure direction: <strong>open-style wearable</strong>, not a compact watch form factor. See the Phase 4 session plan in the progress log.</p>
     </div>
 
-    <h3>Sensor stack — breadboard prototype first, then the printed board</h3>
+    <h3>Sensor stack — breadboard prototype first, then free-wired final assembly</h3>
     <div class="scroller">
       <table>
         <thead><tr><th>Sensor</th><th>Purpose</th><th>Module</th><th>Interface</th></tr></thead>
         <tbody>
           <tr><td>GSR</td><td>sweat/electrolyte proxy (relative)</td><td>Seeed Grove GSR (US) / Techtonics GSR V2.0 (India)</td><td>Analog</td></tr>
-          <tr><td>PPG (HR)</td><td>cardiovascular strain</td><td>MAX30101/MAX30105 breakout — green+red+IR, green LED gives ~10dB better signal-to-motion ratio than red/IR</td><td>I2C</td></tr>
-          <tr><td>Skin temp</td><td>direct heat signal</td><td>MAX30205 breakout — shares I2C bus, no separate OneWire pin</td><td>I2C</td></tr>
-          <tr><td>Motion</td><td>flags GSR/PPG readings during high-acceleration events; free cadence signal</td><td>MPU6050 (GY-521) breakout</td><td>I2C</td></tr>
+          <tr><td>PPG (heart rate)</td><td>cardiovascular strain</td><td>Pulse Sensor Amped — analog ear/finger clip. Aavika's order is a ~$7 budget clone of the $25–30 official part, same interface.</td><td>Analog</td></tr>
+          <tr><td>Skin temp</td><td>direct heat signal</td><td>Adafruit TMP117, Qwiic (US) / MAX30205MTA breakout (India) — different chip per region, same job</td><td>I2C</td></tr>
+          <tr><td>Motion</td><td>flags GSR/PPG readings during high-acceleration events; free cadence signal</td><td>Adafruit MPU-6050, Qwiic (US) / GY-521 breakout (India)</td><td>I2C</td></tr>
+          <tr><td>Display</td><td>on-device risk readout, alongside the vibration alert</td><td>SparkFun Qwiic OLED, 1.3in 128×64 (US) / generic SSD1306 I2C OLED (India) — shares the I2C bus with temp + motion</td><td>I2C</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Placement: <strong>volar (underside) wrist</strong> for all three — more eccrine sweat glands than dorsal wrist, avoids finger placement picking up emotional/stress-sweat instead of thermoregulatory sweat, and sits over the radial artery for PPG.</p>
+    <p>Placement: <strong>volar (underside) wrist</strong> for the three skin-contact sensors (GSR, PPG, skin temp) — more eccrine sweat glands than dorsal wrist, avoids finger placement picking up emotional/stress-sweat instead of thermoregulatory sweat, and sits over the radial artery for PPG.</p>
 
     <h3>Electrode selection</h3>
     <p>GSR modules of this class typically ship with reusable dry metal-plate finger straps, not disposable gel pads. Plan: relocate the stock straps from finger to volar wrist rather than buying new electrodes — zero added cost, already reusable.</p>
@@ -248,8 +249,9 @@ footer .changelog-item b{
         <tbody>
           <tr><td>A0</td><td>battery voltage divider midpoint</td></tr>
           <tr><td>A1</td><td>GSR analog output</td></tr>
+          <tr><td>A2</td><td>Pulse Sensor Amped analog output</td></tr>
           <tr><td>D1</td><td>battery/status LED</td></tr>
-          <tr><td>D4 (SDA) / D5 (SCL)</td><td>I2C bus — MAX30101/30105 + MAX30205 + MPU6050</td></tr>
+          <tr><td>D4 (SDA) / D5 (SCL)</td><td>I2C/Qwiic bus — skin temp + motion + display</td></tr>
           <tr><td>GPIO (TBD)</td><td>vibration motor</td></tr>
         </tbody>
       </table>
@@ -306,8 +308,8 @@ footer .changelog-item b{
     <ol>
       <li><strong>Reusable electrodes over disposables</strong> — see Electrode selection above</li>
       <li><strong>Oversample + filter</strong> — average multiple ADC reads, moving-average/exponential smoothing to kill motion-spike noise</li>
-      <li><strong>Temperature-compensate GSR</strong> — skin conductance is itself temperature-dependent; use the MAX30205 channel to correct the GSR baseline</li>
-      <li><strong>Adaptive/rolling baseline</strong> — EWMA instead of one fixed rest-reading, catches slow drift over long wear (matters more for the 6–8hr outdoor-worker profile)</li>
+      <li><strong>Temperature-compensate GSR</strong> — skin conductance is itself temperature-dependent; use the skin-temp channel to correct the GSR baseline</li>
+      <li><strong>Adaptive/rolling baseline</strong> — a rolling average that leans on recent readings instead of one fixed rest-reading, catches slow drift over long wear (matters more for the 6–8hr outdoor-worker profile)</li>
       <li><strong>Motion-artifact rejection</strong> — MPU6050, see above</li>
       <li><strong>Clean skin site + consistent placement</strong> — alcohol wipe, mark the same volar-wrist spot session to session</li>
       <li><strong>Multi-point ground-truth anchoring</strong> — calibrate at start, mid, and end of a session, not just once</li>
@@ -341,8 +343,8 @@ footer .changelog-item b{
     <div class="bom-card">
       <p style="margin:0">Every part number verified directly against DigiKey US and DigiKey India (digikey.in — same catalog, confirmed operational). Two real sourcing gaps are flagged, not hidden: <span class="pill pill--warn">MAX30205 / MPU6050 breakouts not on DigiKey</span> <span class="pill pill--warn">conductive fabric out of stock everywhere</span> — full detail and workarounds on the BOM page.</p>
       <div class="bom-totals">
-        <div class="us"><div class="region">Est. total — US</div><div class="amount">$65 – $95</div></div>
-        <div class="india"><div class="region">Est. total — India</div><div class="amount">₹4,500 – ₹6,800</div></div>
+        <div class="us"><div class="region">Total — US (Aavika's locked order)</div><div class="amount">$191.53</div></div>
+        <div class="india"><div class="region">Est. total — India</div><div class="amount">≈ ₹7,100</div></div>
       </div>
       <a class="btn" href="bom.html">Open full BOM →</a>
     </div>
@@ -352,7 +354,7 @@ footer .changelog-item b{
     <p class="sec-label">06 — Validation</p>
     <h2>Testing / validation plan</h2>
     <ol>
-      <li>Bench test each sensor individually against known references (GSR against a fixed resistor, MAX30101/30105 against a pulse oximeter, MAX30205 against a thermometer)</li>
+      <li>Bench test each sensor individually against known references (GSR against a fixed resistor, Pulse Sensor Amped against a pulse oximeter, skin-temp sensor against a thermometer)</li>
       <li>Baseline capture procedure validation — consistent rest readings across sessions</li>
       <li>Live session test: log all three channels + timestamps during actual exercise/heat exposure, compare trend shape against expected physiological pattern</li>
       <li>Sweat chloride test-strip calibration anchor points (a few sessions) to sanity-check the GSR-based risk index against a real measurement</li>
