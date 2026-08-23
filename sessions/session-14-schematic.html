@@ -184,7 +184,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
       <div><p class="who">Mentor</p><p class="name">Kushal Chandar</p></div>
       <div><p class="who">Student</p><p class="name">Aavika Kishnani</p></div>
     </div>
-    <p class="date" style="margin-top:1.2rem;">2026-09-06</p>
+    <p class="date" style="margin-top:1.2rem;">2026-09-12</p>
   </div>
 </section>
 
@@ -192,8 +192,8 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>Everything's built. Today we draw it.</h2>
-    <p class="lede">Temp, IMU, GSR, pulse, and the power/status circuit — all five blocks already exist on a real breadboard and have been individually tested. This session captures all of it as one schematic in <strong>KiCad</strong>, not new design.</p>
+    <h2>Everything's built and fused. Today we draw it.</h2>
+    <p class="lede">Temp, IMU, GSR, pulse, and the power/status circuit — all five blocks already exist on a real breadboard, individually tested, and proven working together as one fused prototype (session 13). This session captures all of it as one schematic in <strong>KiCad</strong>, not new design.</p>
     <p class="prompt-box teal"><span class="label">Why KiCad</span>Phase 4 needs schematic + footprint design for the copper-tape PCB — this is a first real touch on the tool you'll use again, not a throwaway skill.</p>
     <ol class="tracks">
       <li><div><h3>MCU + power block</h3><p>XIAO ESP32-C3, battery, divider, status LED.</p></div></li>
@@ -220,11 +220,11 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   <div class="slide-inner">
     <p class="kicker"><span class="num">3</span>Sensor bus</p>
     <h2>Every sensor, on the schematic this time.</h2>
-    <p class="lede">MAX30205 and MPU6050 share one I2C net (SDA/SCL labels tie them together without drawing every wire crossing). GSR and the pulse sensor each get their own analog net label (<code>A1</code>, <code>A2</code>).</p>
+    <p class="lede">Temp (TMP117 US / MAX30205 India), MPU-6050, and the OLED all share one I2C net (SDA/SCL labels tie them together without drawing every wire crossing). GSR and the pulse sensor each get their own analog net label (<code>A1</code>, <code>A2</code>).</p>
     <div class="spec-grid">
       <div class="spec-cell">
         <h4>I2C bus</h4>
-        <p>MAX30205 (<code>0x48</code>) + MPU6050 (<code>0x68</code>) — one SDA net, one SCL net, both devices tied to it.</p>
+        <p>Temp (<code>0x48</code>) + MPU-6050 (<code>0x68</code>) + OLED (<code>0x3C</code>) — one SDA net, one SCL net, all three devices tied to it.</p>
       </div>
       <div class="spec-cell">
         <h4>Analog sensors</h4>
@@ -240,7 +240,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   <div class="slide-inner">
     <p class="kicker"><span class="num">4</span>Wrap</p>
     <h2>Phase 2, complete.</h2>
-    <p class="lede">All four sensors individually bench-tested (sessions 10-12), power/status wired (session 13), now schematically captured (today). Phase 3 starts next: the companion app, BLE, and programming fundamentals.</p>
+    <p class="lede">All four sensors individually bench-tested and fused into a working prototype (sessions 11, 13), power/status wired (session 12), now schematically captured (today). Phase 3 starts next: the companion app, BLE, and programming fundamentals.</p>
   </div>
 </section>
 
