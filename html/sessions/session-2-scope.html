@@ -225,18 +225,18 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
       </div>
       <div class="arrow-sep">→</div>
       <div class="phase-box ph3">
-        <div class="ph-num">Phase 3 · Wk 7–9½</div>
+        <div class="ph-num">Phase 3 · One session</div>
         <h3>Companion app</h3>
-        <p>Programming fundamentals, BLE stack, app frameworks, responsive UI. One extra session added here — it's the densest stretch.</p>
+        <p><strong>Rescoped 2026-08-24:</strong> Kushal builds the app himself — one 2-hour session demos it, teaches BLE at a conceptual level, and hands Aavika a JSON theme editor for hands-on customization, then integrates it live with her real hardware.</p>
       </div>
       <div class="arrow-sep">→</div>
       <div class="phase-box ph4">
-        <div class="ph-num">Phase 4 · Wk 9½–12</div>
+        <div class="ph-num">Phase 4 · 4 sessions</div>
         <h3>Productisation</h3>
-        <p>Schematic + footprint design, a 3D-printed PCB with copper-tape traces, and an open-style wearable enclosure. Guided sessions, your deliverables.</p>
+        <p><strong>Rescoped 2026-08-24:</strong> no custom PCB — the circuit is free-wired directly into the enclosure. Enclosure design (split across two sessions), a fit check, and final assembly close out the project.</p>
       </div>
     </div>
-    <p class="prompt-box"><span class="label">The rule</span>Phase 4 doesn't start until the breadboard prototype is proven. We don't design the board or the enclosure before we know the circuit actually works — that's how you waste two weeks reprinting a part that doesn't fit a circuit that doesn't work.</p>
+    <p class="prompt-box"><span class="label">The rule</span>Phase 4 doesn't start until the breadboard prototype is proven. We don't design the enclosure before we know the circuit actually works — that's how you waste a week reprinting a part that doesn't fit a circuit that doesn't work.</p>
   </div>
 </section>
 
@@ -339,65 +339,65 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <!-- 6: Phase 3 - companion app -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>Phase 3 · Weeks 7–9½</p>
-    <h2>Companion app — programming, BLE, real UI.</h2>
-    <p class="lede">The densest stretch of the project, so one extra session is added here. Fundamentals first, then the radio, then the interface.</p>
+    <p class="kicker"><span class="num">5</span>Phase 3 · One session</p>
+    <h2>Companion app — built for you, demoed and integrated live.</h2>
+    <p class="lede"><strong>Rescoped 2026-08-24.</strong> Rather than teach programming fundamentals, BLE, and UI frameworks across several weeks, Kushal builds the app himself. Phase 3 becomes one 2-hour session: see it working, understand how it talks to the device, then connect it to your own hardware.</p>
     <div class="spec-grid">
       <div class="spec-cell">
-        <div class="badge">Week 7</div>
-        <h4>Programming fundamentals</h4>
-        <p>Variables, functions, events, and debugging in the browser. Enough working vocabulary to read and write the app code — not a full CS course.</p>
+        <div class="badge">Built ahead</div>
+        <h4>The app itself</h4>
+        <p>PWA with Web Bluetooth, built by Kushal before the session — not a build-along. Includes a JSON-based theme/layout editor.</p>
       </div>
       <div class="spec-cell">
-        <div class="badge">Week 7–8</div>
-        <h4>BLE stack setup</h4>
-        <p>Web Bluetooth: scan, connect, subscribe to the device's notifications, parse the risk score. The moment the phone shows a number the wearable produced.</p>
+        <div class="badge">Conceptual</div>
+        <h4>BLE + architecture, lightly taught</h4>
+        <p>What Web Bluetooth actually is — scan, connect, subscribe, read the risk score — at a level that orients, not a build-it-yourself depth.</p>
       </div>
       <div class="spec-cell">
-        <div class="badge">Week 8</div>
-        <h4>Frameworks &amp; responsive UI</h4>
-        <p>PWA structure and layouts that work on a phone screen. A live readout screen for the risk index, with alert history.</p>
+        <div class="badge">Hands-on</div>
+        <h4>JSON theme editor</h4>
+        <p>You edit the app's colors, layout, and which readouts show where — no code, but a real, visible change you made to your own instance.</p>
       </div>
       <div class="spec-cell">
-        <div class="badge">Week 9</div>
-        <h4>iOS wrapper</h4>
-        <p>Safari doesn't expose Web Bluetooth, so iPhone needs a thin native wrapper. Hardest part to teach — treated as a guided demo / stretch goal, not a required skill.</p>
+        <div class="badge">The deliverable</div>
+        <h4>Live integration</h4>
+        <p>Pair the app to your real device, confirm live sensor readings and alerts flow through, trigger a recalibration over BLE. Proof the app and hardware talk to each other.</p>
       </div>
     </div>
-    <p class="prompt-box teal"><span class="label">Android first</span>Web Bluetooth works natively on Android, so the app demos on day one without the wrapper. The iOS wrapper adds iPhone support on top of a working app — it never blocks it.</p>
+    <p class="prompt-box teal"><span class="label">iOS, resolved</span>Safari doesn't expose Web Bluetooth natively — instead of a native wrapper, iOS uses a Web-Bluetooth-enabling browser extension (e.g. Bluefy). Same PWA, zero native app builds, either platform.</p>
   </div>
 </section>
 
 <!-- 7: Phase 4 - productisation -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>Phase 4 · Weeks 9½–12</p>
-    <h2>Productisation — from breadboard to a board you designed.</h2>
-    <p class="lede">Guided building sessions followed by your deliverables. You design everything; the printing and soldering happen outside.</p>
+    <p class="kicker"><span class="num">6</span>Phase 4 · 4 sessions, 2 weekends</p>
+    <h2>Productisation — from breadboard to a wearable device.</h2>
+    <p class="lede"><strong>Rescoped 2026-08-24 — no custom PCB.</strong> A 3D-printed copper-tape board was briefly in scope, then dropped: the circuit is free-wired directly into the enclosure instead, point-to-point. Four sessions across two weekends, with a buffer weekend held open if anything slips.</p>
     <div class="spec-grid">
       <div class="spec-cell">
         <div class="badge">Circuit</div>
         <h4>Schematic design</h4>
-        <p>Turn the proven breadboard circuit into a proper schematic — every net named, every connection deliberate.</p>
+        <p>Turn the proven breadboard circuit into a proper schematic — every net named, every connection deliberate. Right after this, wiring/soldering requirements are sent as homework — no dedicated wiring session.</p>
       </div>
       <div class="spec-cell">
-        <div class="badge">Board</div>
-        <h4>Footprint design + 3D-printed PCB</h4>
-        <p>Lay out real component footprints, 3D-print the board substrate, and lay the copper-tape traces yourself. Soldering is outsourced — that part goes out, on purpose.</p>
+        <div class="badge">Enclosure, 2 sessions</div>
+        <h4>3D enclosure design</h4>
+        <p>Not a compact watch — that level of CAD only comes with years of practice. An open-style design shaped around the real, free-wired components. Split across two sessions: block out the shell, then precision cutouts and print handoff.</p>
       </div>
       <div class="spec-cell">
-        <div class="badge">Enclosure</div>
-        <h4>Open-style wearable design</h4>
-        <p>Not a compact watch — that level of CAD only comes with years of practice. An open-style design you can still wear, modelled around the real board. Concept art comes from Kushal as part of scope.</p>
+        <div class="badge">Fit check</div>
+        <h4>Enclosure fit &amp; strap mounting</h4>
+        <p>First contact between the printed shell and the real wired hardware. Fix what doesn't fit before final assembly, not during it.</p>
       </div>
       <div class="spec-cell">
         <div class="badge">Assembly</div>
-        <h4>Print, solder out, assemble together</h4>
-        <p>You get the enclosure and board printed, send the board out for soldering, and we assemble the finished device together in a session.</p>
+        <h4>Final assembly &amp; wrap</h4>
+        <p>Strap on, close up, worn on a real wrist for the first time. The last session of the whole project.</p>
       </div>
     </div>
-    <p class="prompt-box"><span class="label">Lead times</span>Print the first enclosure draft by week 10 — that leaves room for one reprint. The board goes out for soldering the moment the layout is done, not in assembly week.</p>
-    <p class="prompt-box teal"><span class="label">Safety</span>Copper tape is yours. The soldering iron is not — soldering is outsourced so nobody gets burned.</p>
+    <p class="prompt-box"><span class="label">Lead times</span>Enclosure print + any outstanding soldering happen in the week between the enclosure-design sessions and the fit check — same lead-time thinking as before, just without a board to also print.</p>
+    <p class="prompt-box teal"><span class="label">Soldering, your choice</span>You can solder/desolder the circuit yourself (a tutorial gets sent ahead of time) or send it out — either way, not a hard "always outsourced" rule anymore.</p>
   </div>
 </section>
 
@@ -418,8 +418,8 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
           <span class="pill lit">Vibration alert</span>
           <span class="pill lit">OLED readout</span>
           <span class="pill lit">LiPo battery</span>
-          <span class="pill lit">Schematic + footprint design</span>
-          <span class="pill lit">3D-printed PCB (copper tape)</span>
+          <span class="pill lit">Schematic design</span>
+          <span class="pill lit">Free-wired assembly</span>
           <span class="pill lit">Open-style 3D enclosure</span>
           <span class="pill lit">BLE</span>
           <span class="pill lit">Companion app (PWA)</span>
@@ -430,7 +430,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
         <div class="pill-row">
           <span class="pill">True Na⁺ ISE</span>
           <span class="pill">Cloud logging</span>
-          <span class="pill">Fabricated PCB</span>
+          <span class="pill">Any custom PCB (fab'd or 3D-printed)</span>
           <span class="pill">Compact watch form</span>
           <span class="pill">Microfluidic patch</span>
           <span class="pill">Wireless charging</span>
@@ -459,20 +459,20 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <!-- 10: app + enclosure decision -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">9</span>Decided (updated 2026-07-24)</p>
-    <h2>App, BLE, and full productisation are in.</h2>
-    <p class="lede">Aavika asked for a companion app and a real device — both are in scope. The plan now runs 12 weeks so she designs and builds it end to end.</p>
+    <p class="kicker"><span class="num">9</span>Decided (updated 2026-08-24)</p>
+    <h2>App, BLE, and full productisation are in — no custom PCB.</h2>
+    <p class="lede">Aavika asked for a companion app and a real device — both are in scope. The app compresses to one session (Kushal builds it); the board never happens — the circuit is free-wired straight into the enclosure instead.</p>
     <div class="two-col">
       <div>
         <span class="week-tag teal">Companion app</span>
-        <p style="font-size:.92rem;color:var(--ink-dim);margin:.5rem 0 0;">PWA with a BLE extension — one codebase for Android and iPhone. Android supports Web Bluetooth directly; iOS needs a thin wrapper since Safari doesn't expose it natively.</p>
+        <p style="font-size:.92rem;color:var(--ink-dim);margin:.5rem 0 0;">PWA with Web Bluetooth, built by Kushal — one codebase for Android and iPhone. Android supports Web Bluetooth directly; iOS uses a Web-Bluetooth-enabling browser extension instead of a native wrapper.</p>
       </div>
       <div>
-        <span class="week-tag orange">Board &amp; enclosure</span>
-        <p style="font-size:.92rem;color:var(--ink-dim);margin:.5rem 0 0;">Aavika designs the schematic and footprints, the board is a 3D-printed substrate with copper-tape traces she lays herself (soldering outsourced), and the enclosure is an open-style wearable modelled around the real board.</p>
+        <span class="week-tag orange">Wiring &amp; enclosure</span>
+        <p style="font-size:.92rem;color:var(--ink-dim);margin:.5rem 0 0;">Aavika designs the schematic, then wires the circuit point-to-point herself as homework (soldering self-done or outsourced, her choice), and the enclosure is an open-style wearable modelled around the real, free-wired components.</p>
       </div>
     </div>
-    <p class="prompt-box"><span class="label">Why no fabricated PCB</span>Fab turnaround and cost don't fit this timeline. A 3D-printed board with copper-tape traces teaches the same schematic + footprint skills without a PCB order and a re-spin risk.</p>
+    <p class="prompt-box"><span class="label">Why no PCB at all</span>A 3D-printed copper-tape board was tried in scope for a month, then dropped — free-wiring teaches the same schematic-to-physical-circuit skill without the fab-adjacent risk of a board that doesn't quite fit. Schematic capture (KiCad) is still taught in Phase 4; footprint design isn't, since there's no board to lay footprints on.</p>
   </div>
 </section>
 
