@@ -258,49 +258,12 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
-<!-- 5: temp sensor bring-up -->
+<!-- 5: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>First real Phase 2 sensor</p>
-    <h2>Reading real skin temperature over I2C.</h2>
-    <p class="lede">Same I2C protocol taught in session 7, now on a sensor that measures something real. MAX30205 sits on the bus at address <code>0x48</code> by default.</p>
-    <div class="spec-cell">
-      <h4>Wire it up</h4>
-      <p>MAX30205 SDA/SCL → the shared I2C bus (ESP32-C3 <code>D4</code>/<code>D5</code>). VCC to 3.3V only — the chip's spec range is 2.7–3.6V, never 5V.</p>
-    </div>
-    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;Wire.h&gt;
-#define MAX30205_ADDR 0x48  // default when ADD0-ADD2 are grounded
-
-void setup() {
-  Wire.begin();
-  Serial.begin(115200);
-}
-
-void loop() {
-  Wire.beginTransmission(MAX30205_ADDR);
-  Wire.write(0x00);  // temperature register
-  Wire.endTransmission(false);
-  Wire.requestFrom(MAX30205_ADDR, 2);
-
-  if (Wire.available() == 2) {
-    int16_t raw = (Wire.read() &lt;&lt; 8) | Wire.read();
-    float tempC = raw * 0.00390625;  // 16-bit, 0.00390625degC per LSB
-    Serial.print("Temp: ");
-    Serial.print(tempC);
-    Serial.println(" C");
-  }
-  delay(500);
-}</code></pre>
-    <p class="prompt-box"><span class="label">Try it</span>Warm the sensor with a fingertip — how fast does the reading actually respond? What does that tell you about placing it against skin on the real wearable?</p>
-  </div>
-</section>
-
-<!-- 6: wrap -->
-<section class="slide">
-  <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>Wrap</p>
-    <h2>One sensor down, three to go.</h2>
-    <p class="lede">Temp is working over I2C. Next: IMU gets its own session (Kalman filter + a live 3D visualization), then GSR + the pulse sensor, then power/status wiring, then the schematic that closes Phase 2 out.</p>
+    <p class="kicker"><span class="num">4</span>Wrap</p>
+    <h2>Soldering demo done. Temp bring-up rolls to session 12.</h2>
+    <p class="lede">Ran out of time after the soldering demo — temp sensor bring-up didn't happen live today. It's not lost: MAX30205 wiring/code is already prepped and validated, so it folds into session 12 alongside GSR and the pulse sensor as a quick pre-soldered, code-ready interface. Next: IMU gets its own session (Kalman filter + a live 3D visualization), then temp + GSR + pulse sensor together, then power/status wiring, then the schematic that closes Phase 2 out.</p>
   </div>
 </section>
 
