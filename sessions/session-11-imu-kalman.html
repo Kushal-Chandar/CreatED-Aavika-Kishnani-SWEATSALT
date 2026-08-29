@@ -188,10 +188,24 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   </div>
 </section>
 
+<!-- 1b: app preview -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">1</span>Before we dive in</p>
+    <h2>The companion app is already being built — real firmware too.</h2>
+    <p class="lede">Phase 3 isn't a teaching phase anymore — Kushal's building the app himself, async, so it's ready before session 15 rather than something we build together line by line. It's a PWA (one codebase, Android + iPhone via a Web-Bluetooth browser extension) with a JSON-based theme/layout editor, so you'll get a hands-on customization pass without writing app code.</p>
+    <ol class="tracks">
+      <li><div><h3>App: built, demo'd at session 15</h3><p>Dashboard, BLE data layer, and the JSON theme editor already exist — session 15 is demo + your live customization + pairing it to your real device.</p></div></li>
+      <li><div><h3>Firmware: real ESP32-C3 build starting now</h3><p>Same fusion algorithm you'll tune in session 13, plus a BLE layer so the app above can actually talk to it — built ahead of the curve so testing isn't blocked on the taught sessions.</p></div></li>
+    </ol>
+    <p class="prompt-box"><span class="label">Why now</span>Today's the biggest hands-on build day (all sensors, your own hardware) — good moment to know the app and real firmware are moving in parallel, not waiting on us.</p>
+  </div>
+</section>
+
 <!-- 2: recap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">1</span>Where we are</p>
+    <p class="kicker"><span class="num">2</span>Where we are</p>
     <h2>One long session: motion fusion, then everything else.</h2>
     <p class="lede">Two things that used to be separate sessions, merged into one 3-hour block on your own real hardware. Part one is IMU + Kalman fusion, the biggest technical step in Phase 2. Part two is wiring in every remaining sensor and confirming each one reads a real value — no fusion, no soldering, no new theory.</p>
     <ol class="tracks">
@@ -205,7 +219,7 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <!-- 3: MPU6050 wiring + raw read -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">2</span>Wire it up</p>
+    <p class="kicker"><span class="num">3</span>Wire it up</p>
     <h2>Raw accelerometer and gyroscope — and why it's not enough on its own.</h2>
     <p class="lede">MPU6050 SDA/SCL joins the shared I2C bus. Read raw values first, before any filtering, so the noise is visible.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;Wire.h&gt;
@@ -233,7 +247,7 @@ void loop() {
 <!-- 4: Kalman filter, black-boxed -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>Fusing the noise away</p>
+    <p class="kicker"><span class="num">4</span>Fusing the noise away</p>
     <h2>Two noisy sensors, one stable answer.</h2>
     <p class="lede">The accelerometer gives you an angle but it's jittery. The gyroscope gives you a smooth rate of rotation but drifts over time if you just integrate it. A Kalman filter combines both — driftless-but-noisy plus smooth-but-drifting — into one stable estimate. Today it's a proven library, not derived math.</p>
     <div class="spec-cell">
@@ -264,7 +278,7 @@ void loop() {
 <!-- 5: serial protocol + python live viz -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>See it move</p>
+    <p class="kicker"><span class="num">5</span>See it move</p>
     <h2>Real orientation, driving a real 3D model, live.</h2>
     <p class="lede">The ESP32 streams <code>pitch,roll,yaw</code> over USB serial. A Python script on the laptop reads it and rotates a little airplane model to match — tilt the real board, watch the model respond.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>import math, serial
@@ -295,7 +309,7 @@ while True:
 <!-- 6: Qwiic I2C chain — add temp + OLED -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>Qwiic I2C chain</p>
+    <p class="kicker"><span class="num">6</span>Qwiic I2C chain</p>
     <h2>The MPU-6050's already on the bus. Add temp and OLED to it.</h2>
     <p class="lede">Temp (TMP117) and the OLED are both Qwiic/STEMMA QT boards — cable straight into the MPU-6050 you already have wired, no soldering. Not re-teaching I2C or the Kalman filter here — just confirming both new devices answer on the bus and give a plausible reading.</p>
     <div class="spec-grid">
@@ -329,7 +343,7 @@ void setup() {
 <!-- 7: GSR wiring + read -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">6</span>GSR</p>
+    <p class="kicker"><span class="num">7</span>GSR</p>
     <h2>The divider you already understand, on real skin.</h2>
     <p class="lede">Grove GSR sensor's analog output → <code>A1</code>. Skin resistance changes the divider's output voltage exactly like session 4/5's math — the ADC just digitizes it.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define GSR_PIN A1
@@ -351,7 +365,7 @@ void loop() {
 <!-- 8: Pulse Sensor wiring + read -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">7</span>Pulse Sensor</p>
+    <p class="kicker"><span class="num">8</span>Pulse Sensor</p>
     <h2>The raw heartbeat waveform, one analog pin.</h2>
     <p class="lede">Pulse Sensor Amped's analog output → <code>A2</code>. This hands you the same kind of photoplethysmography signal an I2C sensor like the MAX3010x would give — just without the I2C layer in between.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define PULSE_PIN A2
@@ -372,7 +386,7 @@ void loop() {
 <!-- 9: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">8</span>Wrap</p>
+    <p class="kicker"><span class="num">9</span>Wrap</p>
     <h2>All four sensors + the OLED, verified on your own build.</h2>
     <p class="lede">Motion is fused and visualized, and temp, GSR, and pulse are all reading real values on Aavika-built hardware — nothing here needed soldering. One session did what used to take two, and Sunday's now free. Next: power/status circuit wiring (session 12, does need soldering), then fusion (session 13), then the schematic that closes Phase 2 out (session 14).</p>
   </div>
