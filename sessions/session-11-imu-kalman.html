@@ -207,11 +207,11 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
   <div class="slide-inner">
     <p class="kicker"><span class="num">2</span>Where we are</p>
     <h2>One long session: motion fusion, then everything else.</h2>
-    <p class="lede">Two things that used to be separate sessions, merged into one 3-hour block on your own real hardware. Part one is IMU + Kalman fusion, the biggest technical step in Phase 2. Part two is wiring in every remaining sensor and confirming each one reads a real value — no fusion, no soldering, no new theory.</p>
+    <p class="lede">Two things that used to be separate sessions, merged into one session on your own real hardware. Part one is IMU + Kalman fusion, the biggest technical step in Phase 2. Part two chains in whatever sensors are actually on hand and confirms each one reads a real value — no fusion, no soldering, no new theory. GSR, Pulse Sensor, and the OLED are still waiting on parts — this session ran ~2 hours instead of the full 3.</p>
     <ol class="tracks">
       <li><div><h3>Raw accel + gyro → Kalman → live 3D</h3><p>Read the MPU6050 directly, see the noise, fix it with a black-boxed filter, watch it move on your laptop.</p></div></li>
-      <li><div><h3>Chain in temp + OLED</h3><p>Same I2C bus the MPU-6050's already on — Qwiic, no soldering.</p></div></li>
-      <li><div><h3>GSR + Pulse Sensor</h3><p>Two analog reads, wire and confirm.</p></div></li>
+      <li><div><h3>Chain in human-body temp</h3><p>Same I2C bus the MPU-6050's already on — Qwiic, no soldering.</p></div></li>
+      <li><div><h3>GSR + Pulse Sensor + OLED — deferred</h3><p>Parts hadn't arrived yet. Wiring and code stay the plan for whenever they do.</p></div></li>
     </ol>
   </div>
 </section>
@@ -310,33 +310,32 @@ while True:
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">6</span>Qwiic I2C chain</p>
-    <h2>The MPU-6050's already on the bus. Add temp and OLED to it.</h2>
-    <p class="lede">Temp (TMP117) and the OLED are both Qwiic/STEMMA QT boards — cable straight into the MPU-6050 you already have wired, no soldering. Not re-teaching I2C or the Kalman filter here — just confirming both new devices answer on the bus and give a plausible reading.</p>
+    <h2>The MPU-6050's already on the bus. Add human-body temp to it.</h2>
+    <p class="lede">Human-body temp (MAX30205) is a Qwiic/STEMMA QT board — cable straight into the MPU-6050 you already have wired, no soldering. OLED chains onto the same bus the same way once it arrives. Not re-teaching I2C or the Kalman filter here — just confirming the new device answers on the bus and gives a plausible reading.</p>
     <div class="spec-grid">
       <div class="spec-cell">
         <h4>Chain it</h4>
-        <p>MPU-6050's Qwiic port → cable → TMP117 → cable → OLED. Three different I2C addresses (<code>0x68</code>, <code>0x48</code>, <code>0x3C</code>) share the one bus without conflict.</p>
+        <p>MPU-6050's Qwiic port → cable → MAX30205. Two I2C addresses (<code>0x68</code>, <code>0x4C</code>) share the one bus without conflict.</p>
       </div>
       <div class="spec-cell">
         <h4>Confirm it reads</h4>
-        <p>Just confirming each device answers — the deep dive on MPU-6050/Kalman already happened above.</p>
+        <p>Just confirming the device answers — the deep dive on MPU-6050/Kalman already happened above.</p>
       </div>
     </div>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#include &lt;Wire.h&gt;
-#define TMP117_ADDR 0x48
+#define MAX30205_ADDR 0x4C
 #define MPU6050_ADDR 0x68
-#define OLED_ADDR 0x3C
 
 void setup() {
   Wire.begin();
   Serial.begin(115200);
-  for (uint8_t addr : {TMP117_ADDR, MPU6050_ADDR, OLED_ADDR}) {
+  for (uint8_t addr : {MAX30205_ADDR, MPU6050_ADDR}) {
     Wire.beginTransmission(addr);
     Serial.print("0x"); Serial.print(addr, HEX);
     Serial.println(Wire.endTransmission() == 0 ? " -- found" : " -- NOT found");
   }
 }</code></pre>
-    <p class="prompt-box"><span class="label">Try it</span>Unplug one Qwiic cable mid-chain — what happens to the devices downstream of it? What does that tell you about how the bus is wired?</p>
+    <p class="prompt-box"><span class="label">Try it</span>Unplug the Qwiic cable mid-chain — what happens to the device downstream of it? What does that tell you about how the bus is wired?</p>
   </div>
 </section>
 
@@ -346,6 +345,7 @@ void setup() {
     <p class="kicker"><span class="num">7</span>GSR</p>
     <h2>The divider you already understand, on real skin.</h2>
     <p class="lede">Grove GSR sensor's analog output → <code>A1</code>. Skin resistance changes the divider's output voltage exactly like session 4/5's math — the ADC just digitizes it.</p>
+    <p class="prompt-box"><span class="label">Deferred</span>GSR sensor hadn't arrived by session time — wiring and code below stay the plan for whenever it does.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define GSR_PIN A1
 
 void setup() {
@@ -368,6 +368,7 @@ void loop() {
     <p class="kicker"><span class="num">8</span>Pulse Sensor</p>
     <h2>The raw heartbeat waveform, one analog pin.</h2>
     <p class="lede">Pulse Sensor Amped's analog output → <code>A2</code>. This hands you the same kind of photoplethysmography signal an I2C sensor like the MAX3010x would give — just without the I2C layer in between.</p>
+    <p class="prompt-box"><span class="label">Deferred</span>Pulse Sensor hadn't arrived by session time — wiring and code below stay the plan for whenever it does.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define PULSE_PIN A2
 
 void setup() {
@@ -387,8 +388,8 @@ void loop() {
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">9</span>Wrap</p>
-    <h2>All four sensors + the OLED, verified on your own build.</h2>
-    <p class="lede">Motion is fused and visualized, and temp, GSR, and pulse are all reading real values on Aavika-built hardware — nothing here needed soldering. One session did what used to take two, and Sunday's now free. Next: power/status circuit wiring (session 12, does need soldering), then fusion (session 13), then the schematic that closes Phase 2 out (session 14).</p>
+    <h2>IMU fusion + human-body temp verified. GSR, Pulse, and OLED wait on parts.</h2>
+    <p class="lede">Motion is fused and visualized, and human-body temp (MAX30205) is reading real values on Aavika-built hardware — neither needed soldering. GSR, Pulse Sensor, and the OLED are still waiting on parts, so those three go untested for now; wiring and code stay the plan for whenever they land. Session ran ~2 hours. Next: power/status circuit wiring (session 12, does need soldering), then fusion (session 13), then the schematic that closes Phase 2 out (session 14) — GSR/Pulse/OLED can slot in whenever parts arrive.</p>
   </div>
 </section>
 
