@@ -192,11 +192,13 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>All four sensors work. Today: power.</h2>
-    <p class="lede">Nothing new to learn today — the voltage divider math is from session 4/5, GPIO output is from session 5. Today just applies both to the device's own battery-monitoring circuit.</p>
+    <h2>IMU + temp work. Today: power, GSR, and the motor.</h2>
+    <p class="lede">Battery divider and status LED are nothing new to learn — the divider math is from session 4/5, GPIO output is from session 5. GSR's parts have arrived, so it slots back in here too. Vibration motor is a mentor-only demo on the real device (Aavika's board doesn't have one wired yet). Pulse Sensor and the OLED are still deferred from session 11 — parts not in yet.</p>
     <ol class="tracks">
       <li><div><h3>Battery voltage divider</h3><p>Same divider math, reading the LiPo's real charge level.</p></div></li>
+      <li><div><h3>GSR</h3><p>Deferred from session 11 — parts arrived, wiring and code from that slide now go live.</p></div></li>
       <li><div><h3>Status LED</h3><p>Solid while charging, blinks under 20%, off otherwise.</p></div></li>
+      <li><div><h3>Vibration motor — mentor demo</h3><p>Live on the real ESP32-C3, watch-only, same pattern as session 10's soldering demo.</p></div></li>
     </ol>
   </div>
 </section>
@@ -225,14 +227,36 @@ void loop() {
   </div>
 </section>
 
-<!-- 4: status LED -->
+<!-- 4: GSR wiring + read -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>Status LED</p>
+    <p class="kicker"><span class="num">3</span>GSR</p>
+    <h2>The divider you already understand, on real skin.</h2>
+    <p class="lede">Grove GSR sensor's analog output → <code>A1</code>. Skin resistance changes the divider's output voltage exactly like session 4/5's math — the ADC just digitizes it. Parts arrived since session 11 — same wiring and code from that deck, live now.</p>
+    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define GSR_PIN A1
+
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  int raw = analogRead(GSR_PIN);
+  Serial.print("GSR raw: ");
+  Serial.println(raw);
+  delay(200);
+}</code></pre>
+    <p class="prompt-box"><span class="label">Try it</span>Squeeze the electrode straps a little tighter, then looser — does the reading move the direction you'd expect from the divider formula?</p>
+  </div>
+</section>
+
+<!-- 5: status LED -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">4</span>Status LED</p>
     <h2>One LED, three states.</h2>
     <p class="lede"><code>D1</code> → 330Ω → LED → GND. Solid while charging (the XIAO's onboard charge IC exposes a charge-status pin), blinks under 20% battery, off otherwise.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define LED_PIN D1
-#define CHARGE_STATUS_PIN D2  // XIAO's onboard charge IC status pin
+#define CHARGE_STATUS_PIN D3  // XIAO's onboard charge IC status pin — D2 is the vibration motor
 
 void loop() {
   float v = readBatteryVoltage();
@@ -251,12 +275,31 @@ void loop() {
   </div>
 </section>
 
-<!-- 5: wrap -->
+<!-- 6: vibration motor — mentor demo -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>Wrap</p>
-    <h2>Power's wired. Two sessions left in Phase 2.</h2>
-    <p class="lede">Every block — sensors and power — is now individually built and tested on real hardware. Next: session 13 fuses it all into one working prototype, then session 14 draws the schematic in KiCad — Phase 2's actual deliverable.</p>
+    <p class="kicker"><span class="num">5</span>Vibration motor</p>
+    <h2>The alert output, live on the real device — watch only.</h2>
+    <p class="lede">Aavika's board doesn't have a motor wired yet, so this is a mentor demo on the real ESP32-C3 (<code>firmware/sweatsalt_device</code>) — same watch-only pattern as session 10's soldering demo. Motor is on <code>D2</code>, driven the same way as the status LED: <code>digitalWrite</code> HIGH/LOW, no PWM needed for a simple on/off buzz.</p>
+    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define PIN_VIBRATION D2  // config.h
+
+void loop() {
+  if (riskScore &gt; RISK_ALERT_THRESHOLD) {
+    digitalWrite(PIN_VIBRATION, HIGH);
+  } else {
+    digitalWrite(PIN_VIBRATION, LOW);
+  }
+}</code></pre>
+    <p class="prompt-box"><span class="label">Watch it</span>The motor fires off the same <code>riskScore</code> threshold session 13's fusion algorithm computes — this is the alert output the whole prototype is building toward.</p>
+  </div>
+</section>
+
+<!-- 7: wrap -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">6</span>Wrap</p>
+    <h2>Power, GSR, and the motor are wired. Two sessions left in Phase 2.</h2>
+    <p class="lede">Every block built so far — IMU, temp, GSR, battery, status LED, motor — is individually built and tested. Pulse Sensor and the OLED are still deferred, parts pending. Next: session 13 fuses everything into one working prototype, then session 14 draws the schematic in KiCad — Phase 2's actual deliverable.</p>
   </div>
 </section>
 
