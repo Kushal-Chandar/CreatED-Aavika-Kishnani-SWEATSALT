@@ -192,10 +192,11 @@ ul.checklist li::before{content:"○"; color:var(--teal); position:absolute; lef
 <section class="slide">
   <div class="slide-inner">
     <p class="kicker"><span class="num">1</span>Where we are</p>
-    <h2>IMU + temp work. Today: ADC refresh, GSR, and heart rate.</h2>
-    <p class="lede">GSR's parts have arrived — real hardware today, wiring and code carried over from session 11. Heart rate's Pulse Sensor is still in transit, so today's HR bring-up runs in Wokwi as a stand-in, same simulate-first pattern session 4 used before real GSR hardware existed. Battery divider, status LED, and the vibration motor move to session 13, ahead of fusion.</p>
+    <h2>IMU + temp work. Today: ADC refresh, vibration motor PWM, GSR, and heart rate.</h2>
+    <p class="lede">GSR's parts have arrived — real hardware today, wiring and code carried over from session 11. Heart rate's Pulse Sensor is still in transit, so today's HR bring-up runs in Wokwi as a stand-in, same simulate-first pattern session 4 used before real GSR hardware existed. Vibration motor gets its own slide today too — first real PWM teaching, session 9's servo left it black-boxed. Battery divider and status LED move to session 13, ahead of fusion.</p>
     <ol class="tracks">
       <li><div><h3>ADC refresher</h3><p>Wokwi potentiometer + analogRead() — a quick recap before today's real and simulated sensor reads.</p></div></li>
+      <li><div><h3>Vibration motor &amp; PWM</h3><p>Duty cycle, taught for real this time — variable-intensity buzz on the mentor's real device.</p></div></li>
       <li><div><h3>GSR</h3><p>Real hardware — parts arrived, wiring and code from session 11 now go live.</p></div></li>
       <li><div><h3>Heart rate — Wokwi sim</h3><p>Pulse Sensor part still pending — simulate the ADC mechanics in Wokwi until it arrives.</p></div></li>
     </ol>
@@ -226,10 +227,35 @@ void loop() {
   </div>
 </section>
 
-<!-- 4: GSR wiring + read -->
+<!-- 4: vibration motor + PWM -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">3</span>GSR</p>
+    <p class="kicker"><span class="num">3</span>Vibration motor &amp; PWM</p>
+    <h2>PWM: your first real duty cycle.</h2>
+    <p class="lede">Session 9's servo used PWM under the hood but left it black-boxed. Today it's real: <code>digitalWrite</code> only gives fully on or fully off, but PWM switches a pin on and off fast enough that the motor feels an average — the fraction of time it's HIGH (duty cycle) controls how strong the buzz feels. <code>analogWrite()</code> handles the fast switching for you; you just give it a 0–255 duty-cycle number.</p>
+    <div class="spec-cell">
+      <h4>Watch it</h4>
+      <p>Aavika's board doesn't have a motor wired yet, so this is a mentor demo on the real ESP32-C3 (<code>firmware/sweatsalt_device</code>), watch-only — same pattern as session 10's soldering demo. Motor is on <code>D2</code>.</p>
+    </div>
+    <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define PIN_VIBRATION D2  // config.h
+
+void setup() {
+  pinMode(PIN_VIBRATION, OUTPUT);
+}
+
+void loop() {
+  // duty cycle scales with how far past threshold the risk score is
+  int intensity = map(riskScore, RISK_ALERT_THRESHOLD, 100, 80, 255);
+  analogWrite(PIN_VIBRATION, riskScore &gt; RISK_ALERT_THRESHOLD ? intensity : 0);
+}</code></pre>
+    <p class="prompt-box"><span class="label">Watch it</span>Compare a low duty cycle buzz to a high one — same motor, same frequency, only the fraction of on-time changes. Session 12's earlier motor pass only had HIGH/LOW; this is the upgrade.</p>
+  </div>
+</section>
+
+<!-- 5: GSR wiring + read -->
+<section class="slide">
+  <div class="slide-inner">
+    <p class="kicker"><span class="num">4</span>GSR</p>
     <h2>The divider you already understand, on real skin.</h2>
     <p class="lede">Grove GSR sensor's analog output → <code>A1</code>. Skin resistance changes the divider's output voltage exactly like session 4/5's math — the ADC just digitizes it. Parts arrived since session 11 — real hardware, not simulated.</p>
     <pre style="background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;font-size:.8rem;overflow-x:auto;"><code>#define GSR_PIN A1
@@ -248,10 +274,10 @@ void loop() {
   </div>
 </section>
 
-<!-- 5: heart rate — Wokwi sim -->
+<!-- 6: heart rate — Wokwi sim -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">4</span>Heart rate</p>
+    <p class="kicker"><span class="num">5</span>Heart rate</p>
     <h2>Same ADC mechanics, standing in for a heartbeat.</h2>
     <p class="lede">Pulse Sensor Amped hasn't arrived yet, so today's heart-rate bring-up runs in Wokwi: a potentiometer on a second analog pin standing in for the sensor's variable analog output, exactly like the ADC refresher and session 4's GSR stand-in. It doesn't model a real PPG waveform shape or beat timing — it's here so the analogRead() + basic peak-detection code exists and is understood before the real part lands.</p>
     <div class="spec-cell">
@@ -279,12 +305,12 @@ void loop() {
   </div>
 </section>
 
-<!-- 6: wrap -->
+<!-- 7: wrap -->
 <section class="slide">
   <div class="slide-inner">
-    <p class="kicker"><span class="num">5</span>Wrap</p>
-    <h2>GSR is real. Heart rate is simulated, for now. Two sessions left in Phase 2.</h2>
-    <p class="lede">GSR is built and tested on real hardware. Heart-rate code path is proven in Wokwi, ready to swap onto the real Pulse Sensor once it arrives. Battery divider, status LED, and vibration motor move to session 13, ahead of fusion. OLED still deferred, parts pending. Next: session 13 wires power/status/motor then fuses everything into one working prototype; session 14 draws the schematic in KiCad — Phase 2's actual deliverable.</p>
+    <p class="kicker"><span class="num">6</span>Wrap</p>
+    <h2>GSR and PWM are real. Heart rate is simulated, for now. Two sessions left in Phase 2.</h2>
+    <p class="lede">GSR and the vibration motor's variable-intensity PWM are built and tested on real hardware. Heart-rate code path is proven in Wokwi, ready to swap onto the real Pulse Sensor once it arrives. Battery divider and status LED move to session 13, ahead of fusion. OLED still deferred, parts pending. Next: session 13 wires power/status then fuses everything into one working prototype; session 14 draws the schematic in KiCad — Phase 2's actual deliverable.</p>
   </div>
 </section>
 
